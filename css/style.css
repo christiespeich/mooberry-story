@@ -1,0 +1,29 @@
+.mbs_next {
+	float: right;
+	width: 45%;
+	margin-left: 5%;
+}
+
+.mbs_prev {
+	float: left;
+	width: 45%;
+	margin-right: 5%;
+}
+
+.mbs_posts_text {
+	margin: 5% 0%;
+}
+
+.mbs_cover_image, .mbs_toc {
+	width: 50%; 
+	margin-left:auto; margin-right:auto; display:block;
+}
+
+.mbs_posts_widget_list  li{
+	list-style: decimal inside;
+}
+
+.mbs_story_widget_list li {
+	list-style: circle inside;
+}
+

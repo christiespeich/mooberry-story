@@ -1,0 +1,392 @@
+# WordPress Blank Pot
+# Copyright (C) 2014 ...
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Mooberry Story v0.1\n"
+"Report-Msgid-Bugs-To: Mooberry Dreams <mooberrystory@mooberrydreams.com>\n"
+"POT-Creation-Date: 2015-08-02 22:08-0500\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Your Name <you@example.com>\n"
+"Language-Team: Mooberry Dreams <mooberrystory@mooberrydreams.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Textdomain-Support: yesX-Generator: Poedit 1.6.4\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;esc_html_e;esc_html_x:1,2c;esc_html__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;"
+"_x:1,2c;_n:1,2;_n_noop:1,2;__ngettext:1,2;__ngettext_noop:1,2;_c,"
+"_nc:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Generator: Poedit 1.7.4\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: includes/cmb2\n"
+
+#: includes/helper-functions.php:210
+msgid "Chapter"
+msgstr ""
+
+#: includes/helper-functions.php:211
+msgid "Chapters"
+msgstr ""
+
+#: includes/helper-functions.php:212
+msgid "Episode"
+msgstr ""
+
+#: includes/helper-functions.php:213
+msgid "Episodes"
+msgstr ""
+
+#: includes/helper-functions.php:214
+msgid "Part"
+msgstr ""
+
+#: includes/helper-functions.php:215
+msgid "Parts"
+msgstr ""
+
+#: includes/helper-functions.php:225
+msgid "Custom"
+msgstr ""
+
+#: includes/helper-functions.php:270 mooberry-story.php:110
+msgid "All Stories"
+msgstr ""
+
+#: includes/helper-functions.php:271
+msgid "Completed Stories"
+msgstr ""
+
+#: includes/helper-functions.php:272
+msgid "Unfinished Stories"
+msgstr ""
+
+#: includes/helper-functions.php:273
+msgid "Last Updated Story"
+msgstr ""
+
+#: includes/helper-functions.php:274
+msgid "Stories in a Series"
+msgstr ""
+
+#: includes/helper-functions.php:275
+msgid "Stories in a Genre"
+msgstr ""
+
+#: includes/helper-functions.php:302
+msgid "All"
+msgstr ""
+
+#: includes/helper-functions.php:303
+msgid "Most Recent"
+msgstr ""
+
+#: mooberry-story.php:93 mooberry-story.php:107 mooberry-story.php:109
+msgid "Stories"
+msgstr ""
+
+#: mooberry-story.php:108 post-meta-box.php:23 post-meta-box.php:112
+msgid "Story"
+msgstr ""
+
+#: mooberry-story.php:111
+msgid "Add New"
+msgstr ""
+
+#: mooberry-story.php:112
+msgid "Add New Story"
+msgstr ""
+
+#: mooberry-story.php:113
+msgid "Edit"
+msgstr ""
+
+#: mooberry-story.php:114
+msgid "Edit Story"
+msgstr ""
+
+#: mooberry-story.php:115
+msgid "New Story"
+msgstr ""
+
+#: mooberry-story.php:116 mooberry-story.php:117
+msgid "View Story"
+msgstr ""
+
+#: mooberry-story.php:118
+msgid "Search Stories"
+msgstr ""
+
+#: mooberry-story.php:119
+msgid "No Stories Found"
+msgstr ""
+
+#: mooberry-story.php:120
+msgid "No Stories Found in Trash"
+msgstr ""
+
+#: mooberry-story.php:121
+msgid "Parent Story"
+msgstr ""
+
+#: mooberry-story.php:140 mooberry-story.php:150
+msgid "Genres"
+msgstr ""
+
+#: mooberry-story.php:141
+msgid "Genre"
+msgstr ""
+
+#: mooberry-story.php:142
+msgid "Search Genres"
+msgstr ""
+
+#: mooberry-story.php:143
+msgid "All Genres"
+msgstr ""
+
+#: mooberry-story.php:144
+msgid "Parent Genre"
+msgstr ""
+
+#: mooberry-story.php:145
+msgid "Parent Genre:"
+msgstr ""
+
+#: mooberry-story.php:146
+msgid "Edit Genre"
+msgstr ""
+
+#: mooberry-story.php:147
+msgid "Update Genre"
+msgstr ""
+
+#: mooberry-story.php:148
+msgid "Add New Genre"
+msgstr ""
+
+#: mooberry-story.php:149
+msgid "New Genre Name"
+msgstr ""
+
+#: mooberry-story.php:151
+msgid "Popular Genres"
+msgstr ""
+
+#: mooberry-story.php:152
+msgid "Separate genres with commas"
+msgstr ""
+
+#: mooberry-story.php:153
+msgid "Add or remove genres"
+msgstr ""
+
+#: mooberry-story.php:154
+msgid "Choose from the most used genres"
+msgstr ""
+
+#: mooberry-story.php:155
+msgid "No genres found"
+msgstr ""
+
+#: mooberry-story.php:173 mooberry-story.php:174 mooberry-story.php:183
+msgid "Series"
+msgstr ""
+
+#: mooberry-story.php:175
+msgid "Search Series"
+msgstr ""
+
+#: mooberry-story.php:176
+msgid "All Series"
+msgstr ""
+
+#: mooberry-story.php:177
+msgid "Parent Series"
+msgstr ""
+
+#: mooberry-story.php:178
+msgid "Parent Series:"
+msgstr ""
+
+#: mooberry-story.php:179
+msgid "Edit Series"
+msgstr ""
+
+#: mooberry-story.php:180
+msgid "Update Series"
+msgstr ""
+
+#: mooberry-story.php:181
+msgid "Add New Series"
+msgstr ""
+
+#: mooberry-story.php:182
+msgid "New Series Name"
+msgstr ""
+
+#: mooberry-story.php:184
+msgid "Popular Series"
+msgstr ""
+
+#: mooberry-story.php:185
+msgid "Separate series with commas"
+msgstr ""
+
+#: mooberry-story.php:186
+msgid "Add or remove series"
+msgstr ""
+
+#: mooberry-story.php:187
+msgid "Choose from the most used series"
+msgstr ""
+
+#: mooberry-story.php:188
+msgid "No Series found"
+msgstr ""
+
+#: mooberry-story.php:224
+msgid "Table of Contents"
+msgstr ""
+
+#: mooberry-story.php:293
+msgid "A"
+msgstr ""
+
+#: post-meta-box.php:13
+msgid "Mooberry Story"
+msgstr ""
+
+#: post-meta-box.php:130
+#, php-format
+msgid "%s %d of %d"
+msgstr ""
+
+#: shortcodes.php:81
+msgid "Next"
+msgstr ""
+
+#: shortcodes.php:88
+msgid "Previous"
+msgstr ""
+
+#: story.php:17
+msgid "About the Story"
+msgstr ""
+
+#: story.php:25
+msgid "This Is A"
+msgstr ""
+
+#: story.php:38
+msgid "Custom Type"
+msgstr ""
+
+#: story.php:44
+msgid "Posts Should Be Called"
+msgstr ""
+
+#: story.php:56
+msgid "Custom Posts Name - Singular"
+msgstr ""
+
+#: story.php:62
+msgid "Custom Posts Name - Plural"
+msgstr ""
+
+#: story.php:68
+msgid "Include Posts Name and Count in Titles?"
+msgstr ""
+
+#: story.php:75
+msgid "Story Is Complete?"
+msgstr ""
+
+#: story.php:81
+msgid "Story Summary"
+msgstr ""
+
+#: story.php:97 story.php:105
+msgid "Story Cover"
+msgstr ""
+
+#: story.php:120
+msgid "Story Posts"
+msgstr ""
+
+#: story.php:126
+msgid "Drag and drop the items to reorder them."
+msgstr ""
+
+#: story.php:186
+msgid "Type"
+msgstr ""
+
+#: story.php:187
+msgid "Number of Posts"
+msgstr ""
+
+#: story.php:188
+msgid "Complete"
+msgstr ""
+
+#: story.php:207
+msgid "Yes"
+msgstr ""
+
+#: story.php:209
+msgid "No"
+msgstr ""
+
+#: views/widget-posts.php:2 views/widget-stories.php:2
+msgid "Widget Title:"
+msgstr ""
+
+#: views/widget-posts.php:6
+msgid "Which story:"
+msgstr ""
+
+#: views/widget-posts.php:12
+msgid "How many:"
+msgstr ""
+
+#: views/widget-stories.php:6
+msgid "Which stories to list:"
+msgstr ""
+
+#: views/widget-stories.php:12
+msgid "Which genre:"
+msgstr ""
+
+#: views/widget-stories.php:18
+msgid "Which series:"
+msgstr ""
+
+#: widget-posts.php:14
+msgid "Mooberry Story - Chapters List"
+msgstr ""
+
+#: widget-posts.php:18
+msgid "Displays a list of chapters of a story."
+msgstr ""
+
+#: widget-posts.php:71
+#, php-format
+msgid "No %s found"
+msgstr ""
+
+#: widget-stories.php:14
+msgid "Mooberry Story - Stories List"
+msgstr ""
+
+#: widget-stories.php:18
+msgid "Displays a list of stories."
+msgstr ""
+
+#: widget-stories.php:85
+msgid "No stories found"
+msgstr ""
