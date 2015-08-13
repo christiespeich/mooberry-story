@@ -1,13 +1,20 @@
+.mbs_next, .mbs_prev {
+	width: 35%;	
+}
+
 .mbs_next {
 	float: right;
-	width: 45%;
-	margin-left: 5%;
+	text-align: right;
 }
 
 .mbs_prev {
 	float: left;
-	width: 45%;
-	margin-right: 5%;
+	text-align: left;
+}
+
+.mbs_toc_link {
+	width: 20%;
+	margin: 0% 5%;
 }
 
 .mbs_posts_text {
@@ -17,6 +24,7 @@
 .mbs_cover_image, .mbs_toc {
 	width: 50%; 
 	margin-left:auto; margin-right:auto; display:block;
+	margin-bottom: 20px;
 }
 
 .mbs_posts_widget_list  li{
@@ -26,4 +34,9 @@
 .mbs_story_widget_list li {
 	list-style: circle inside;
 }
+
+.mbs_posts_title {
+	text-align: center;
+}
+
 

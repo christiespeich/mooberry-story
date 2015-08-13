@@ -10,7 +10,7 @@ function mbds_init_post_meta_box() {
 
 	$post_meta_box = new_cmb2_box( apply_filters('mbds_post_meta_box', array(
 		'id'            => $prefix . 'post_meta_box',
-		'title'         => __( 'Mooberry Story', MBDS_TEXT_DOMAIN ),
+		'title'         => __( 'Mooberry Story', 'mbd-blog-post-series' ),
 		'object_types'  => array( 'post', ), // Post type
 		 'context'    => 'normal',
 		 'priority'   => 'high',
@@ -20,7 +20,7 @@ function mbds_init_post_meta_box() {
 	) ) );
 
 	$post_meta_box->add_field( apply_filters('mbds_posts_story_field', array(
-		'name'       => __( 'Story', MBDS_TEXT_DOMAIN ),
+		'name'       => __( 'Story', 'mbd-blog-post-series' ),
 		'id'         => $prefix . 'story',
 		'type'       => 'select',
 		'options'	=> mbds_get_story_list(),
@@ -28,7 +28,7 @@ function mbds_init_post_meta_box() {
 	) ) );	
 	/*
 	$post_meta_box->add_field( apply_filters('mbds_posts_summary_field', array(
-		'name'       => __( 'Summary', MBDS_TEXT_DOMAIN ),
+		'name'       => __( 'Summary', 'mbd-blog-post-series' ),
 		'id'         => $prefix . 'summary',
 		'type'       => 'wysiwyg',
 		'options'	=>	array(
@@ -50,11 +50,19 @@ function mbds_init_post_meta_box() {
 **********************************************************/
 add_action( 'cmb2_override__mbds_story_meta_save', 'mbds_story_save', 3, 4);
 function mbds_story_save($override, $a, $args, $field_obj ) {
-	
-	
 	global $post;
+	
+	// If this is just a revision, don't save the posts
+	if ( wp_is_post_revision( $post->ID ) )  {
+		return;
+	}
+	
+
 	$new_story = $a['value'];
 	$mbds_story = get_post_meta($new_story, '_mbds_posts', true);
+	if ($mbds_story == '') {
+		$mbds_story = array();
+	}
 	
 	// remove from any story already in 
 	// get all stories
@@ -101,6 +109,67 @@ function mbds_story_save($override, $a, $args, $field_obj ) {
 	
 }
 
+/*************************************************************************
+	POST TRASHING, UNTRASHING, and DELETING
+*************************************************************************/
+// being sent to trash
+add_action('wp_trash_post', 'mbds_trash_post');
+function mbds_trash_post( $postID) {
+
+	$mbds_storyID = get_post_meta($postID, '_mbds_story', true);
+	if ($mbds_storyID != '') {
+		$mbds_posts = get_post_meta($mbds_storyID, '_mbds_posts', true);
+		if ($mbds_posts != '' ) { 
+			$key = array_search($postID, $mbds_posts);
+			if ($key !== null) {
+				update_post_meta($postID, '_mbds_posts_orderID', $key);
+				unset($mbds_posts[$key]);
+				// renumber the indices
+				$mbds_posts = array_values($mbds_posts);
+				// save the posts
+				update_post_meta($mbds_storyID, '_mbds_posts', $mbds_posts);
+			}
+		}
+	}
+}	
+
+// restore from trash
+add_action('untrash_post', 'mbds_untrash_post');
+function mbds_untrash_post( $postID ) {
+	$mbds_storyID = get_post_meta($postID, '_mbds_story', true);
+	// if it's a post with a story,
+	if ($mbds_storyID != '') {
+		$mbds_posts = get_post_meta($mbds_storyID, '_mbds_posts', true);
+		$mbds_orderID = get_post_meta($postID, '_mbds_posts_orderID', true);
+		// and the story has a posts array
+		if ($mbds_posts != '') { 			
+			// and the order ID is set
+			if ($mbds_orderID != '') {
+				// and the order ID isn't past the length of the array
+				if ($mbds_orderID < count($mbds_posts)) {
+					// insert the postID into the appropriate spot
+					array_splice($mbds_posts, $mbds_orderID, 0, $postID);
+				} else {
+					// but if the orderID is past the lenght of the array, add it to the end
+					$mbds_posts[] = $postID;
+				}
+			// but if the orderID is not set, add it to the end
+			} else {
+				$mbds_posts[] = $postID;
+			}
+		// but if there is no posts array, create it with this post
+		} else {
+			$mbds_posts = array($postID);
+		}
+		// save the posts
+		update_post_meta($mbds_storyID, '_mbds_posts', $mbds_posts);
+		// remove the OrderID, it's not needed any more
+		delete_post_meta($postID, '_mbds_posts_orderID');
+	}
+	
+}
+
+
 
 /*************************************************************************
 	columns
@@ -109,7 +178,7 @@ function mbds_story_save($override, $a, $args, $field_obj ) {
 // Add to our admin_init function
 add_filter('manage_post_posts_columns', 'mbds_add_post_columns');
 function mbds_add_post_columns($columns) {
-    $columns['mbds_story'] = __('Story', MBDS_TEXT_DOMAIN);
+    $columns['mbds_story'] = __('Story', 'mbd-blog-post-series');
     return apply_filters('mbds_posts_columns', $columns);
 }
 
@@ -127,7 +196,7 @@ function mbds_render_post_columns($column_name, $id) {
 					echo '<br>';
 					// grab installment name
 					$post_name = mbds_get_story_post_name( $storyID, 'single' );
-					echo sprintf(__('%s %d of %d', MBDS_TEXT_DOMAIN), $post_name, $orderID+1, count($mbds_story['_mbds_posts']));
+					echo sprintf(_x('%s %d of %d', '[POSTS TITLE] [NUMBER] of [TOTAL NUMBER]', 'mbd-blog-post-series'), $post_name, $orderID+1, count($mbds_story['_mbds_posts']));
 				}
 			}
 		break;

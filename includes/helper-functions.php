@@ -155,7 +155,10 @@ function mbds_get_posts_list( $storyID ) {
 	//$mbdbps_series = get_option('mbdbps_series');
 	$posts_list = get_post_meta($storyID, '_mbds_posts', true);
 	
-	
+	if ($posts_list == '') {
+		return apply_filters('mbds_posts_list', array());
+	}
+		
 	$args = array(
 				'posts_per_page' => -1,
 				'post_status'	=> 'publish',
@@ -178,6 +181,7 @@ function mbds_get_posts_list( $storyID ) {
 	wp_reset_postdata();
 	
 	return apply_filters('mbds_posts_list', $posts_list);
+
 }
 
 function mbds_get_most_recent_post( $storyID) {
@@ -207,12 +211,12 @@ function mbds_get_most_recent_post( $storyID) {
 
 function mbds_get_post_names() {
 	return apply_filters('mbds_post_names', array(
-		'chapters' => array('single' => __('Chapter', MBDS_TEXT_DOMAIN),
-							'plural'	=> __('Chapters', MBDS_TEXT_DOMAIN)),
-		'episodes' => array('single' => __('Episode', MBDS_TEXT_DOMAIN),
-							'plural'	=> __('Episodes', MBDS_TEXT_DOMAIN)),
-		'parts' => array('single' => __('Part', MBDS_TEXT_DOMAIN),
-							'plural' => __('Parts', MBDS_TEXT_DOMAIN)),
+		'chapters' => array('single' => __('Chapter', 'mbd-blog-post-series'),
+							'plural'	=> __('Chapters', 'mbd-blog-post-series')),
+		'episodes' => array('single' => __('Episode', 'mbd-blog-post-series'),
+							'plural'	=> __('Episodes', 'mbd-blog-post-series')),
+		'parts' => array('single' => __('Part', 'mbd-blog-post-series'),
+							'plural' => __('Parts', 'mbd-blog-post-series')),
 		));
 }
 
@@ -222,7 +226,7 @@ function mbds_get_post_names_options() {
 	foreach ($post_names as $key => $post_name) {
 		$options[$key] = $post_names[$key]['plural'];
 	}
-	$options['custom'] = __('Custom', MBDS_TEXT_DOMAIN);
+	$options['custom'] = __('Custom', 'mbd-blog-post-series');
 	return apply_filters('mbds_posts_names_options', $options);
 }
 
@@ -250,7 +254,7 @@ function mbds_display_posts_name($story, $postID) {
 	$posts_name = mbds_get_story_post_name($story['ID'], 'single');
 	$count = array_search($postID, $story['_mbds_posts']);
 	$count++;
-	return apply_filters('mbds_display_posts_name', $posts_name . ' ' . $count . ': ');
+	return apply_filters('mbds_display_posts_name', $posts_name . ' ' . $count);
 }
 
 function mbds_output_dropdown( $options, $selected) {
@@ -267,12 +271,12 @@ function mbds_output_dropdown( $options, $selected) {
 	
 function mbds_get_story_widget_dropdown( $selected ) {
 	$options = array(
-					'all' => __('All Stories', MBDS_TEXT_DOMAIN),
-					'complete' => __('Completed Stories', MBDS_TEXT_DOMAIN),
-					'incomplete' => __('Unfinished Stories', MBDS_TEXT_DOMAIN),
-					'recent' => __('Last Updated Story', MBDS_TEXT_DOMAIN),
-					'series' => __('Stories in a Series', MBDS_TEXT_DOMAIN),
-					'genre' => __('Stories in a Genre', MBDS_TEXT_DOMAIN),
+					'all' => __('All Stories', 'mbd-blog-post-series'),
+					'complete' => __('Completed Stories', 'mbd-blog-post-series'),
+					'incomplete' => __('Unfinished Stories', 'mbd-blog-post-series'),
+					'recent' => __('Last Updated Story', 'mbd-blog-post-series'),
+					'series' => __('Stories in a Series', 'mbd-blog-post-series'),
+					'genre' => __('Stories in a Genre', 'mbd-blog-post-series'),
 				);
 	
 	return apply_filters('mbds_story_widget_dropdown', mbds_output_dropdown($options, $selected));
@@ -299,7 +303,7 @@ function mbds_get_stories_dropdown( $selected ) {
 }
 
 function mbds_get_post_widget_dropdown( $selected ){
-	$options = array( 'all' => __('All', MBDS_TEXT_DOMAIN),
-						'latest' => __('Most Recent', MBDS_TEXT_DOMAIN));
+	$options = array( 'all' => __('All', 'mbd-blog-post-series'),
+						'latest' => __('Most Recent', 'mbd-blog-post-series'));
 	return apply_filters('mbds_post_widget_dropdown', mbds_output_dropdown( $options, $selected ));
 }

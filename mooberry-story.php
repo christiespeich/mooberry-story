@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Mooberry Story
-Plugin URI:  http://URI_Of_Page_Describing_Plugin_and_Updates
-Description: Organizes multiple blog posts into a series
-Version:     0.1
+Plugin URI:  http://www.mooberrydreams.com/products/mooberry-story
+Description: Organizes multiple blog posts into a series. Make it easy for readers to find your stories, including older ones.
+Version:     1.0
 Author:      Mooberry Dreams
 Author URI:  https://profiles.wordpress.org/mooberrydreams/
 License:     GPL2
@@ -29,9 +29,15 @@ along with Mooberry Story. If not, see https://www.gnu.org/licenses/gpl-2.0.html
 define('MBDS_PLUGIN_DIR', plugin_dir_path( __FILE__ )); 
 
 define('MBDS_PLUGIN_VERSION_KEY', 'mbds_version');
-define('MBDS_PLUGIN_VERSION', '0.1'); 
-define('MBDS_TEXT_DOMAIN', 'mbd-blog-post-series');
+define('MBDS_PLUGIN_VERSION', '1.0'); 
 
+
+// update checker
+// require 'includes/plugin-update-checker/plugin-update-checker.php';
+// $myUpdateChecker = new PluginUpdateChecker_2_2(
+    // '"http://www.mooberrydreams.com/plugins/2c49afcc-e4a0-403b-a980-c755043a201e/updater.json',
+    // __FILE__
+// );
 
 // load in CMB2
 if ( file_exists( dirname( __FILE__ ) . '/includes/cmb2/init.php' ) ) {
@@ -90,7 +96,7 @@ add_action( 'init', 'mbds_init' );
 function mbds_init() {
 	register_post_type('mbds_story',
 			apply_filters('mbds_story_cpt', array(	
-			'label' => __('Stories', MBDS_TEXT_DOMAIN ),
+			'label' => __('Stories', 'mbd-blog-post-series' ),
 			'public' => true,
 			'show_ui' => true,
 			'show_in_menu' => true,
@@ -104,21 +110,21 @@ function mbds_init() {
 			'supports' => array( 'title', 'comments' ),
 			'taxonomies' => array( 'mbds_genre', 'mbds_series' ),
 			'labels' => array (
-				'name' => __('Stories', MBDS_TEXT_DOMAIN),
-				'singular_name' => __('Story', MBDS_TEXT_DOMAIN),
-				'menu_name' => __('Stories', 'noun', MBDS_TEXT_DOMAIN),
-				'all_items' => __('All Stories', MBDS_TEXT_DOMAIN),
-				'add_new' => __('Add New', MBDS_TEXT_DOMAIN),
-				'add_new_item' => __('Add New Story', MBDS_TEXT_DOMAIN),
-				'edit' => __('Edit', MBDS_TEXT_DOMAIN),
-				'edit_item' => __('Edit Story', MBDS_TEXT_DOMAIN),
-				'new_item' => __('New Story', MBDS_TEXT_DOMAIN),
-				'view' => __('View Story', MBDS_TEXT_DOMAIN),
-				'view_item' => __('View Story', MBDS_TEXT_DOMAIN),
-				'search_items' => __('Search Stories', MBDS_TEXT_DOMAIN),
-				'not_found' => __('No Stories Found', MBDS_TEXT_DOMAIN),
-				'not_found_in_trash' => __('No Stories Found in Trash', MBDS_TEXT_DOMAIN),
-				'parent' => __('Parent Story', MBDS_TEXT_DOMAIN)
+				'name' => __('Stories', 'mbd-blog-post-series'),
+				'singular_name' => __('Story', 'mbd-blog-post-series'),
+				'menu_name' => __('Stories', 'noun', 'mbd-blog-post-series'),
+				'all_items' => __('All Stories', 'mbd-blog-post-series'),
+				'add_new' => __('Add New', 'mbd-blog-post-series'),
+				'add_new_item' => __('Add New Story', 'mbd-blog-post-series'),
+				'edit' => __('Edit', 'mbd-blog-post-series'),
+				'edit_item' => __('Edit Story', 'mbd-blog-post-series'),
+				'new_item' => __('New Story', 'mbd-blog-post-series'),
+				'view' => __('View Story', 'mbd-blog-post-series'),
+				'view_item' => __('View Story', 'mbd-blog-post-series'),
+				'search_items' => __('Search Stories', 'mbd-blog-post-series'),
+				'not_found' => __('No Stories Found', 'mbd-blog-post-series'),
+				'not_found_in_trash' => __('No Stories Found in Trash', 'mbd-blog-post-series'),
+				'parent' => __('Parent Story', 'mbd-blog-post-series')
 				),
 			) )
 		);
@@ -137,22 +143,22 @@ function mbds_init() {
 					'assign_terms' => 'edit_posts',				
 				),
 				'labels' => array(
-					'name' => __('Genres', MBDS_TEXT_DOMAIN),
-					'singular_name' => __('Genre', MBDS_TEXT_DOMAIN),
-					'search_items' => __('Search Genres' , MBDS_TEXT_DOMAIN),
-					'all_items' =>  __('All Genres' , MBDS_TEXT_DOMAIN),
-					'parent_item' =>  __('Parent Genre' , MBDS_TEXT_DOMAIN),
-					'parent_item_colon' =>  __('Parent Genre:' , MBDS_TEXT_DOMAIN),
-					'edit_item' =>  __('Edit Genre' , MBDS_TEXT_DOMAIN),
-					'update_item' =>  __('Update Genre' , MBDS_TEXT_DOMAIN),
-					'add_new_item' =>  __('Add New Genre' , MBDS_TEXT_DOMAIN),
-					'new_item_name' =>  __('New Genre Name' , MBDS_TEXT_DOMAIN),
-					'menu_name' =>  __('Genres' , MBDS_TEXT_DOMAIN),
-					'popular_items' => __('Popular Genres', MBDS_TEXT_DOMAIN),
-					'separate_items_with_commas' => __('Separate genres with commas', MBDS_TEXT_DOMAIN),
-					'add_or_remove_items' => __('Add or remove genres', MBDS_TEXT_DOMAIN),
-					'choose_from_most_used' => __('Choose from the most used genres', MBDS_TEXT_DOMAIN),
-					'not_found' => __('No genres found', MBDS_TEXT_DOMAIN)
+					'name' => __('Genres', 'mbd-blog-post-series'),
+					'singular_name' => __('Genre', 'mbd-blog-post-series'),
+					'search_items' => __('Search Genres' , 'mbd-blog-post-series'),
+					'all_items' =>  __('All Genres' , 'mbd-blog-post-series'),
+					'parent_item' =>  __('Parent Genre' , 'mbd-blog-post-series'),
+					'parent_item_colon' =>  __('Parent Genre:' , 'mbd-blog-post-series'),
+					'edit_item' =>  __('Edit Genre' , 'mbd-blog-post-series'),
+					'update_item' =>  __('Update Genre' , 'mbd-blog-post-series'),
+					'add_new_item' =>  __('Add New Genre' , 'mbd-blog-post-series'),
+					'new_item_name' =>  __('New Genre Name' , 'mbd-blog-post-series'),
+					'menu_name' =>  __('Genres' , 'mbd-blog-post-series'),
+					'popular_items' => __('Popular Genres', 'mbd-blog-post-series'),
+					'separate_items_with_commas' => __('Separate genres with commas', 'mbd-blog-post-series'),
+					'add_or_remove_items' => __('Add or remove genres', 'mbd-blog-post-series'),
+					'choose_from_most_used' => __('Choose from the most used genres', 'mbd-blog-post-series'),
+					'not_found' => __('No genres found', 'mbd-blog-post-series')
 				)
 			) )
 		);
@@ -170,22 +176,22 @@ function mbds_init() {
 				'assign_terms' => 'edit_posts',				
 			),
 			'labels' => array(
-				'name' => __('Series', MBDS_TEXT_DOMAIN),
-				'singular_name' => __('Series', MBDS_TEXT_DOMAIN),
-				'search_items' => __('Search Series' , MBDS_TEXT_DOMAIN),
-				'all_items' =>  __('All Series' , MBDS_TEXT_DOMAIN),
-				'parent_item' =>  __('Parent Series' , MBDS_TEXT_DOMAIN),
-				'parent_item_colon' =>  __('Parent Series:' , MBDS_TEXT_DOMAIN),
-				'edit_item' =>  __('Edit Series' , MBDS_TEXT_DOMAIN),
-				'update_item' =>  __('Update Series' , MBDS_TEXT_DOMAIN),
-				'add_new_item' =>  __('Add New Series' , MBDS_TEXT_DOMAIN),
-				'new_item_name' =>  __('New Series Name' , MBDS_TEXT_DOMAIN),
-				'menu_name' =>  __('Series' , MBDS_TEXT_DOMAIN),
-				'popular_items' => __('Popular Series', MBDS_TEXT_DOMAIN),
-				'separate_items_with_commas' => __('Separate series with commas', MBDS_TEXT_DOMAIN),
-				'add_or_remove_items' => __('Add or remove series', MBDS_TEXT_DOMAIN),
-				'choose_from_most_used' => __('Choose from the most used series', MBDS_TEXT_DOMAIN),
-				'not_found' => __('No Series found', MBDS_TEXT_DOMAIN)
+				'name' => __('Series', 'mbd-blog-post-series'),
+				'singular_name' => __('Series', 'mbd-blog-post-series'),
+				'search_items' => __('Search Series' , 'mbd-blog-post-series'),
+				'all_items' =>  __('All Series' , 'mbd-blog-post-series'),
+				'parent_item' =>  __('Parent Series' , 'mbd-blog-post-series'),
+				'parent_item_colon' =>  __('Parent Series:' , 'mbd-blog-post-series'),
+				'edit_item' =>  __('Edit Series' , 'mbd-blog-post-series'),
+				'update_item' =>  __('Update Series' , 'mbd-blog-post-series'),
+				'add_new_item' =>  __('Add New Series' , 'mbd-blog-post-series'),
+				'new_item_name' =>  __('New Series Name' , 'mbd-blog-post-series'),
+				'menu_name' =>  __('Series' , 'mbd-blog-post-series'),
+				'popular_items' => __('Popular Series', 'mbd-blog-post-series'),
+				'separate_items_with_commas' => __('Separate series with commas', 'mbd-blog-post-series'),
+				'add_or_remove_items' => __('Add or remove series', 'mbd-blog-post-series'),
+				'choose_from_most_used' => __('Choose from the most used series', 'mbd-blog-post-series'),
+				'not_found' => __('No Series found', 'mbd-blog-post-series')
 			)
 		) )
 	);		
@@ -205,9 +211,22 @@ function mbds_content($content) {
 	//if it's a post that is part of a story, add next and prev links to top and bottom
 	if ( get_post_type() == 'post' && is_main_query() && !is_admin() ) {
 		
-		$story = get_post_meta($post->ID, '_mbds_story', true);
-		if ($story != '') {
-			$content = '[mbs_prev][mbs_next]<br style="clear:both;"><div class="mbs_posts_text">' . $content . '</div>[mbs_prev][mbs_next]<br style="clear:both;">';
+		$storyID = get_post_meta($post->ID, '_mbds_story', true);
+		if ($storyID != '') {
+			$story_text = $content;
+			$mbds_story = mbds_get_story($storyID);
+			$content = '[mbs_toc_link]';
+			$content .= '[mbs_prev][mbs_next]<br style="clear:both;">';
+			$content .= '<h2 class="mbs_posts_title">';
+			
+			if (isset($mbds_story['_mbds_include_posts_name'])) {
+				 $content .= mbds_display_posts_name($mbds_story, $post->ID) . '<br>';
+			 }
+			
+			$content .= $post->post_title . '</h2>';
+			$content .= '<div class="mbs_posts_text">' . $story_text . '</div>';
+			$content .= '[mbs_toc_link]';
+			$content .= '[mbs_prev][mbs_next]<br style="clear:both;">';
 		}
 	}
 	
@@ -215,24 +234,13 @@ function mbds_content($content) {
 	if (get_post_type() == 'mbds_story' && is_main_query() && !is_admin() ) {
 		$mbds_story = mbds_get_story( $post->ID );
 		
-		if (isset($mbds_story['_mbds_cover_image'])) {
-			$content = '<img class="mbs_cover_image" src="' . $mbds_story['_mbds_cover_image'] . '">';
-		}
-		if (isset($mbds_story['_mbds_summary'])) {
-			$content .= $mbds_story['_mbds_summary'];
-		}
-		$content .= '<div class="mbs_toc"><h2 class="mbs_toc_title">' .  __('Table of Contents', MBDS_TEXT_DOMAIN) . '</h2>';
-		$content .= '<ul class="mbs_toc_list">';
-		$posts = mbds_get_posts_list( $post->ID);
-		foreach ($posts as $each_post) {
-			$content .= '<li><a href="' . $each_post['link'] . '">';
-			if ($mbds_story['_mbds_include_posts_name']) {
-				$content .= '<span class="mbs_toc_item_posts_name">' . mbds_display_posts_name($mbds_story, $each_post['ID']) . '</span>';
-			}
-			$content .= '<span class="mbs_toc_item_title">' . $each_post['title'] . '</span></a></li>';
-		}
-		$content .= '</ul>';
-		$content .= '</div>';
+		$slug = $post->post_name;
+		
+		$content = '[mbs_cover story="' . $slug . '"]';
+		
+		$content .= '[mbs_summary story="' . $slug . '"]';
+
+		$content .= '[mbs_toc story="' . $slug . '"]';
 	}
 	return apply_filters('mbds_content', $content);
 
@@ -249,11 +257,12 @@ function mbds_posts_title( $title, $id ) {
 		$story = mbds_get_story($storyID);
 		if (count($story) != 0) {
 			$post_title = $title;
-			$title = $story['title'] . '<h2>';
-			if (isset($story['_mbds_include_posts_name'])) {
-				$title = $title . mbds_display_posts_name($story, $post->ID);
-			}
-			 $title .= $post_title . '</h2>';
+			$title = $story['title'];
+			// . '<h2>';
+			// if (isset($story['_mbds_include_posts_name'])) {
+				// $title = $title . mbds_display_posts_name($story, $post->ID);
+			// }
+			 // $title .= $post_title . '</h2>';
 		}
 	}
 	return apply_filters('mbds_posts_title', $title);
@@ -290,7 +299,7 @@ function mbds_wp_title($title, $sep ) {
 	if (get_post_type() == 'mbds_story' && is_main_query() && !is_admin() ) {
 		global $post;
 		$mbds_story = mbds_get_story( $post->ID );
-		$title = $mbds_story['title'] . ' - ' . __('A', MBDS_TEXT_DOMAIN);
+		$title = $mbds_story['title'] . ' - ' . __('A', 'mbd-blog-post-series');
 		
 		if (isset($mbds_story['genres'])) {
 			if (count($mbds_story['genres']>0)) {

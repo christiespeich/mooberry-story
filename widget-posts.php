@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 class mbds_Posts_Widget extends WP_Widget {
 	function __construct() {
 		 parent::__construct(
@@ -11,11 +8,11 @@ class mbds_Posts_Widget extends WP_Widget {
 			'mbds_posts_widget',
 			 
 			// name of the widget
-			__('Mooberry Story - Chapters List', MBDS_TEXT_DOMAIN ),
+			__('Mooberry Story - Chapters List', 'mbd-blog-post-series' ),
 			 
 			// widget options
 			array (
-				'description' => __( 'Displays a list of chapters of a story.', MBDS_TEXT_DOMAIN ),
+				'description' => __( 'Displays a list of chapters of a story.', 'mbd-blog-post-series' ),
 				'classname' => 'mbds_Posts_Widget',
 			)
 			 
@@ -68,7 +65,7 @@ class mbds_Posts_Widget extends WP_Widget {
 			echo '</ol>';
 		} else {
 			$posts_name = mbds_get_story_post_name($instance['mbds_pw_story'], 'plural');
-			echo sprintf(__('No %s found', MBDS_TEXT_DOMAIN), $posts_name);
+			echo sprintf(__('No %s found', 'mbd-blog-post-series'), $posts_name);
 		}
 		echo $after_widget;
 		 
