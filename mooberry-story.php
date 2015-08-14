@@ -32,12 +32,12 @@ define('MBDS_PLUGIN_VERSION_KEY', 'mbds_version');
 define('MBDS_PLUGIN_VERSION', '1.0'); 
 
 
-// update checker
-// require 'includes/plugin-update-checker/plugin-update-checker.php';
-// $myUpdateChecker = new PluginUpdateChecker_2_2(
-    // '"http://www.mooberrydreams.com/plugins/2c49afcc-e4a0-403b-a980-c755043a201e/updater.json',
-    // __FILE__
-// );
+//update checker
+require 'includes/plugin-update-checker/plugin-update-checker.php';
+$myUpdateChecker = new PluginUpdateChecker_2_2(
+    'http://www.mooberrydreams.com/plugins/2c49afcc-e4a0-403b-a980-c755043a201e/updater.json',
+    __FILE__
+);
 
 // load in CMB2
 if ( file_exists( dirname( __FILE__ ) . '/includes/cmb2/init.php' ) ) {

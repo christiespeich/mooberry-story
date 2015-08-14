@@ -1,5 +1,5 @@
 <?php
-function mbd_log($var) {
+function mbds_log($var) {
 		error_log(print_r($var, true)); 
 }
 

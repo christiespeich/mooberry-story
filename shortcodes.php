@@ -95,9 +95,7 @@ function mbds_shortcode_summary($attr, $content) {
 	$attr = shortcode_atts(array('story' => ''), $attr);
 	$storyID = mbds_get_storyID($attr['story']);
 	$mbds_story = mbds_get_story($storyID);
-	mbd_log($attr['story']);
-	mbd_log($storyID);
-	mbd_log($mbds_story);
+
 	$html_output = '<div class="mbs_story_summary">';
 	if (isset($mbds_story['_mbds_summary'])) {
 		$html_output .= '<p>' .  preg_replace('/\\n/', '</p><p>',$mbds_story['_mbds_summary']) . '</p>';
