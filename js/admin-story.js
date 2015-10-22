@@ -1,5 +1,9 @@
 jQuery( document ).ready(function() {
 	
+	// this is only for saving stories not other posts
+	if (jQuery('#_mbds_story_meta_box').length == 0) {
+		return;
+	}
 	
 	// bind a function to save the grid order via ajax
 	jQuery('#publish').bind('click', mbds_save);
