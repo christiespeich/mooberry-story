@@ -71,7 +71,7 @@ function mbds_story_save($override, $a, $args, $field_obj ) {
 	$stories = mbds_get_stories('all', null, null, null);
 	foreach($stories as $each_story) {
 		$story = mbds_get_story($each_story->ID);
-	
+		
 		if (array_key_exists('_mbds_posts', $story)) {
 			// if the ID is in the array, get the key
 			$keys = array_keys($story['_mbds_posts'], $post->ID);

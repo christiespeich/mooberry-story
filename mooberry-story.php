@@ -3,7 +3,7 @@
 Plugin Name: Mooberry Story
 Plugin URI:  http://www.mooberrydreams.com/products/mooberry-story
 Description: Organizes multiple blog posts into a series. Make it easy for readers to find your stories, including older ones.
-Version:     1.0
+Version:     1.2
 Author:      Mooberry Dreams
 Author URI:  https://profiles.wordpress.org/mooberrydreams/
 License:     GPL2
@@ -29,7 +29,7 @@ along with Mooberry Story. If not, see https://www.gnu.org/licenses/gpl-2.0.html
 define('MBDS_PLUGIN_DIR', plugin_dir_path( __FILE__ )); 
 
 define('MBDS_PLUGIN_VERSION_KEY', 'mbds_version');
-define('MBDS_PLUGIN_VERSION', '1.0'); 
+define('MBDS_PLUGIN_VERSION', '1.2'); 
 
 
 //update checker
@@ -124,7 +124,10 @@ function mbds_init() {
 				'search_items' => __('Search Stories', 'mbd-blog-post-series'),
 				'not_found' => __('No Stories Found', 'mbd-blog-post-series'),
 				'not_found_in_trash' => __('No Stories Found in Trash', 'mbd-blog-post-series'),
-				'parent' => __('Parent Story', 'mbd-blog-post-series')
+				'parent' => __('Parent Story', 'mbd-blog-post-series'),
+				'filter_items_list'     => __( 'Filter Story List', 'mbd-blog-post-series' ),
+				'items_list_navigation' => __( 'Story List Navigation', 'mbd-blog-post-series' ),
+				'items_list'            => __( 'Story List', 'mbd-blog-post-series' ),
 				),
 			) )
 		);
@@ -158,7 +161,9 @@ function mbds_init() {
 					'separate_items_with_commas' => __('Separate genres with commas', 'mbd-blog-post-series'),
 					'add_or_remove_items' => __('Add or remove genres', 'mbd-blog-post-series'),
 					'choose_from_most_used' => __('Choose from the most used genres', 'mbd-blog-post-series'),
-					'not_found' => __('No genres found', 'mbd-blog-post-series')
+					'not_found' => __('No genres found', 'mbd-blog-post-series'),
+					'items_list_navigation' => __( 'Genre navigation', 'mbd-blog-post-series' ),
+					'items_list'            => __( 'Genre list', 'mbd-blog-post-series' ),
 				)
 			) )
 		);
@@ -191,7 +196,9 @@ function mbds_init() {
 				'separate_items_with_commas' => __('Separate series with commas', 'mbd-blog-post-series'),
 				'add_or_remove_items' => __('Add or remove series', 'mbd-blog-post-series'),
 				'choose_from_most_used' => __('Choose from the most used series', 'mbd-blog-post-series'),
-				'not_found' => __('No Series found', 'mbd-blog-post-series')
+				'not_found' => __('No Series found', 'mbd-blog-post-series'),
+				'items_list_navigation' => __( 'Series navigation', 'mbd-blog-post-series' ),
+				'items_list'            => __( 'Series list', 'mbd-blog-post-series' ),
 			)
 		) )
 	);		
@@ -207,6 +214,17 @@ function mbds_register_story_widget() {
 add_filter( 'the_content', 'mbds_content');
 function mbds_content($content) {
 	global $post;
+	
+	// this weeds out content in the sidebar and other odd places
+		// thanks joeytwiddle for this update
+		// added in version 2.3
+		if (!in_the_loop() || !is_main_query() ) {
+			return $content;
+		}
+		
+		if (!is_single()) {
+			return $content;
+		}
 	
 	//if it's a post that is part of a story, add next and prev links to top and bottom
 	if ( get_post_type() == 'post' && is_main_query() && !is_admin() ) {
@@ -251,18 +269,31 @@ add_filter('tc_title_text', 'mbdb_tax_grid_title');
 add_filter( 'the_title', 'mbds_posts_title', 10, 2);
 function mbds_posts_title( $title, $id ) {
 	global $post;
+	// this weeds out content in the sidebar and other odd places
+		// thanks joeytwiddle for this update
+		// added in version 2.3
+		if (!in_the_loop() || !is_main_query() ) {
+			return $title;
+		}
+			
+		
+		
 	if (get_post_type() == 'post' && is_main_query() && !is_admin() && $post->ID == $id) {
 		
 		$storyID = get_post_meta($post->ID, '_mbds_story', true);
 		$story = mbds_get_story($storyID);
 		if (count($story) != 0) {
-			$post_title = $title;
-			$title = $story['title'];
-			// . '<h2>';
-			// if (isset($story['_mbds_include_posts_name'])) {
-				// $title = $title . mbds_display_posts_name($story, $post->ID);
-			// }
-			 // $title .= $post_title . '</h2>';
+			if (!is_single()) {
+				return apply_filters('mbdb_archive_title', $story['title'] . ': ' .$title);
+			} else {
+				$post_title = $title;
+				$title = $story['title'];
+				// . '<h2>';
+				// if (isset($story['_mbds_include_posts_name'])) {
+					// $title = $title . mbds_display_posts_name($story, $post->ID);
+				// }
+				 // $title .= $post_title . '</h2>';
+			}
 		}
 	}
 	return apply_filters('mbds_posts_title', $title);
@@ -275,6 +306,13 @@ function mbds_posts_title( $title, $id ) {
 add_filter('tc_breadcrumb_trail_items', 'mbds_posts_breadcrumb', 10, 2);
 function mbds_posts_breadcrumb( $trail, $args) {
 	global $post;
+	// this weeds out content in the sidebar and other odd places
+		// thanks joeytwiddle for this update
+		// added in version 2.3
+		if (!in_the_loop() || !is_main_query() ) {
+			return $trail;
+		}
+		
 	if (get_post_type() == 'post' && is_main_query() && !is_admin()) {
 		
 		$storyID = get_post_meta($post->ID, '_mbds_story', true);
@@ -295,7 +333,13 @@ function mbds_wp_title($title, $sep ) {
 	if ( is_feed() ) {
 		return $title;
 	}
-	
+	// this weeds out content in the sidebar and other odd places
+		// thanks joeytwiddle for this update
+		// added in version 2.3
+		if (!in_the_loop() || !is_main_query() ) {
+			return $title;
+		}
+		
 	if (get_post_type() == 'mbds_story' && is_main_query() && !is_admin() ) {
 		global $post;
 		$mbds_story = mbds_get_story( $post->ID );
