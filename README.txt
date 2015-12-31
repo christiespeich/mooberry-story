@@ -42,6 +42,8 @@ If you have stories you've already posted on your blog, you can still use Moober
 == Changelog ==
 = 1.2 =
 * Appends story title to post title only if not viewing single, otherwise just displays story title
+* Fixes errors when creating story and first post
+* Updates for WP 4.4
 
 = 1.1 =
 * Fixes bug when saving posts which causes website to hang up
