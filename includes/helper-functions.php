@@ -50,7 +50,7 @@ function mbds_get_story( $storyID ) {
 		if (isset($story['_mbds_posts'])) {
 			$story['_mbds_posts'] = unserialize($story['_mbds_posts']);
 		}
-		// v1.2 make sure _mbds_posts is an array
+		// v1.2.1 make sure _mbds_posts is an array
 		if ( !array_key_exists( '_mbds_posts', $story ) || !is_array( $story['_mbds_posts'] ) ) {
 			$story['_mbds_posts'] = array();
 		}

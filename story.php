@@ -165,7 +165,7 @@ function mbds_save_posts_grid() {
 		die ( );
 	}
 
-	// v1.2 -- add check for posts to be blank
+	// v1.2.1 -- add check for posts to be blank
 	if (isset($_POST['posts']) && $_POST['posts'] != '') {
 	
 		// $_POST['posts']  = "mbds_post[]=2131&mbds_post[]=2135&mbds_post[]=2133&mbds_post[]=2243&mbds_post[]=2245&mbds_post[]=2247&mbds_post[]=2249&mbds_post[]=2251&mbds_post[]=2253&mbds_post[]=2255&mbds_post[]=2257&mbds_post[]=2259"
