@@ -3,7 +3,7 @@
 Plugin Name: Mooberry Story
 Plugin URI:  http://www.mooberrydreams.com/products/mooberry-story
 Description: Organizes multiple blog posts into a series. Make it easy for readers to find your stories, including older ones.
-Version:     1.2.1
+Version:     1.2.2
 Author:      Mooberry Dreams
 Author URI:  https://profiles.wordpress.org/mooberrydreams/
 License:     GPL2
@@ -29,7 +29,7 @@ along with Mooberry Story. If not, see https://www.gnu.org/licenses/gpl-2.0.html
 define('MBDS_PLUGIN_DIR', plugin_dir_path( __FILE__ )); 
 
 define('MBDS_PLUGIN_VERSION_KEY', 'mbds_version');
-define('MBDS_PLUGIN_VERSION', '1.2.1'); 
+define('MBDS_PLUGIN_VERSION', '1.2.2'); 
 
 
 //update checker
@@ -264,9 +264,22 @@ function mbds_content($content) {
 
 }
 
-// tc_title_text for theme Customizr
-add_filter('tc_title_text', 'mbdb_tax_grid_title');
-add_filter( 'the_title', 'mbds_posts_title', 10, 2);
+// see https://joshlevinson.me/2013/08/14/filter-a-page-posts-title-only-on-that-page-post/
+add_action('loop_start','mbds_condition_filter_title');
+function mbds_condition_filter_title($query){
+	global $wp_query;
+	// tc_title_text for theme Customizr
+	if($query === $wp_query){
+		add_filter( 'the_title', 'mbds_posts_title', 10, 2);
+		add_filter('tc_title_text', 'mbds_posts_title');
+	}else{
+		remove_filter('the_title','mbds_posts_title', 10, 2);
+		remove_filter('tc_title_text', 'mbds_posts_title');
+	}
+}
+
+//add_filter('tc_title_text', 'mbdb_tax_grid_title');
+//add_filter( 'the_title', 'mbds_posts_title', 10, 2);
 function mbds_posts_title( $title, $id ) {
 	global $post;
 	// this weeds out content in the sidebar and other odd places
