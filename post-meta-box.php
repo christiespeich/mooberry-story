@@ -10,7 +10,7 @@ function mbds_init_post_meta_box() {
 
 	$post_meta_box = new_cmb2_box( apply_filters('mbds_post_meta_box', array(
 		'id'            => $prefix . 'post_meta_box',
-		'title'         => __( 'Mooberry Story', 'mbd-blog-post-series' ),
+		'title'         => __( 'Mooberry Story', 'mooberry-story' ),
 		'object_types'  => array( 'post', ), // Post type
 		 'context'    => 'normal',
 		 'priority'   => 'high',
@@ -20,7 +20,7 @@ function mbds_init_post_meta_box() {
 	) ) );
 
 	$post_meta_box->add_field( apply_filters('mbds_posts_story_field', array(
-		'name'       => __( 'Story', 'mbd-blog-post-series' ),
+		'name'       => __( 'Story', 'mooberry-story' ),
 		'id'         => $prefix . 'story',
 		'type'       => 'select',
 		'options'	=> mbds_get_story_list(),
@@ -28,7 +28,7 @@ function mbds_init_post_meta_box() {
 	) ) );	
 	/*
 	$post_meta_box->add_field( apply_filters('mbds_posts_summary_field', array(
-		'name'       => __( 'Summary', 'mbd-blog-post-series' ),
+		'name'       => __( 'Summary', 'mooberry-story' ),
 		'id'         => $prefix . 'summary',
 		'type'       => 'wysiwyg',
 		'options'	=>	array(
@@ -178,7 +178,7 @@ function mbds_untrash_post( $postID ) {
 // Add to our admin_init function
 add_filter('manage_post_posts_columns', 'mbds_add_post_columns');
 function mbds_add_post_columns($columns) {
-    $columns['mbds_story'] = __('Story', 'mbd-blog-post-series');
+    $columns['mbds_story'] = __('Story', 'mooberry-story');
     return apply_filters('mbds_posts_columns', $columns);
 }
 
@@ -196,7 +196,7 @@ function mbds_render_post_columns($column_name, $id) {
 					echo '<br>';
 					// grab installment name
 					$post_name = mbds_get_story_post_name( $storyID, 'single' );
-					echo sprintf(_x('%s %d of %d', '[POSTS TITLE] [NUMBER] of [TOTAL NUMBER]', 'mbd-blog-post-series'), $post_name, $orderID+1, count($mbds_story['_mbds_posts']));
+					echo sprintf(_x('%s %d of %d', '[POSTS TITLE] [NUMBER] of [TOTAL NUMBER]', 'mooberry-story'), $post_name, $orderID+1, count($mbds_story['_mbds_posts']));
 				}
 			}
 		break;

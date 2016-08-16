@@ -215,12 +215,12 @@ function mbds_get_most_recent_post( $storyID) {
 
 function mbds_get_post_names() {
 	return apply_filters('mbds_post_names', array(
-		'chapters' => array('single' => __('Chapter', 'mbd-blog-post-series'),
-							'plural'	=> __('Chapters', 'mbd-blog-post-series')),
-		'episodes' => array('single' => __('Episode', 'mbd-blog-post-series'),
-							'plural'	=> __('Episodes', 'mbd-blog-post-series')),
-		'parts' => array('single' => __('Part', 'mbd-blog-post-series'),
-							'plural' => __('Parts', 'mbd-blog-post-series')),
+		'chapters' => array('single' => __('Chapter', 'mooberry-story'),
+							'plural'	=> __('Chapters', 'mooberry-story')),
+		'episodes' => array('single' => __('Episode', 'mooberry-story'),
+							'plural'	=> __('Episodes', 'mooberry-story')),
+		'parts' => array('single' => __('Part', 'mooberry-story'),
+							'plural' => __('Parts', 'mooberry-story')),
 		));
 }
 
@@ -230,7 +230,7 @@ function mbds_get_post_names_options() {
 	foreach ($post_names as $key => $post_name) {
 		$options[$key] = $post_names[$key]['plural'];
 	}
-	$options['custom'] = __('Custom', 'mbd-blog-post-series');
+	$options['custom'] = __('Custom', 'mooberry-story');
 	return apply_filters('mbds_posts_names_options', $options);
 }
 
@@ -275,12 +275,12 @@ function mbds_output_dropdown( $options, $selected) {
 	
 function mbds_get_story_widget_dropdown( $selected ) {
 	$options = array(
-					'all' => __('All Stories', 'mbd-blog-post-series'),
-					'complete' => __('Completed Stories', 'mbd-blog-post-series'),
-					'incomplete' => __('Unfinished Stories', 'mbd-blog-post-series'),
-					'recent' => __('Last Updated Story', 'mbd-blog-post-series'),
-					'series' => __('Stories in a Series', 'mbd-blog-post-series'),
-					'genre' => __('Stories in a Genre', 'mbd-blog-post-series'),
+					'all' => __('All Stories', 'mooberry-story'),
+					'complete' => __('Completed Stories', 'mooberry-story'),
+					'incomplete' => __('Unfinished Stories', 'mooberry-story'),
+					'recent' => __('Last Updated Story', 'mooberry-story'),
+					'series' => __('Stories in a Series', 'mooberry-story'),
+					'genre' => __('Stories in a Genre', 'mooberry-story'),
 				);
 	
 	return apply_filters('mbds_story_widget_dropdown', mbds_output_dropdown($options, $selected));
@@ -307,7 +307,7 @@ function mbds_get_stories_dropdown( $selected ) {
 }
 
 function mbds_get_post_widget_dropdown( $selected ){
-	$options = array( 'all' => __('All', 'mbd-blog-post-series'),
-						'latest' => __('Most Recent', 'mbd-blog-post-series'));
+	$options = array( 'all' => __('All', 'mooberry-story'),
+						'latest' => __('Most Recent', 'mooberry-story'));
 	return apply_filters('mbds_post_widget_dropdown', mbds_output_dropdown( $options, $selected ));
 }

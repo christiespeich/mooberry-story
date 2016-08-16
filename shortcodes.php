@@ -81,14 +81,14 @@ function mbds_shortcode_next($attr, $content) {
 	$attr = shortcode_atts(array('summary' => 'no',
 								'story' => ''), $attr);
 	
-	return apply_filters('mbds_next_shortcode', mbds_next_prev('next', __('Next', 'mbd-blog-post-series'), $attr['story'], $attr['summary']));
+	return apply_filters('mbds_next_shortcode', mbds_next_prev('next', __('Next', 'mooberry-story'), $attr['story'], $attr['summary']));
 }
 
 function mbds_shortcode_prev($attr, $content) {
 	$attr = shortcode_atts(array('summary' => 'no',
 								'story' => ''), $attr);
 								
-	return apply_filters('mbds_prev_shortcode', mbds_next_prev('prev', __('Previous', 'mbd-blog-post-series'), $attr['story'], $attr['summary']));
+	return apply_filters('mbds_prev_shortcode', mbds_next_prev('prev', __('Previous', 'mooberry-story'), $attr['story'], $attr['summary']));
 }
 
 function mbds_shortcode_summary($attr, $content) {
@@ -121,7 +121,7 @@ function mbds_shortcode_toc( $attr, $content ) {
 	$attr = shortcode_atts(array('story' => ''), $attr);
 	$storyID = mbds_get_storyID($attr['story']);
 	$mbds_story = mbds_get_story($storyID);
-	$html_output = '<div class="mbs_toc"><h2 class="mbs_toc_title">' .  __('Table of Contents', 'mbd-blog-post-series') . '</h2>';
+	$html_output = '<div class="mbs_toc"><h2 class="mbs_toc_title">' .  __('Table of Contents', 'mooberry-story') . '</h2>';
 	$html_output .= '<ul class="mbs_toc_list">';
 	$posts = mbds_get_posts_list( $storyID );
 	foreach ($posts as $each_post) {
@@ -139,6 +139,6 @@ function mbds_shortcode_toc( $attr, $content ) {
 function mbds_shortcode_toc_link( $attr, $content) {
 	$attr = shortcode_atts(array('story' => ''), $attr);
 	$storyID = mbds_get_storyID($attr['story']);
-	$html_output = '<a class="mbs_toc_link" href="' . get_permalink($storyID) . '">' . __('Table of Contents', 'mbd-blog-post-series') . '</a>';
+	$html_output = '<a class="mbs_toc_link" href="' . get_permalink($storyID) . '">' . __('Table of Contents', 'mooberry-story') . '</a>';
 	return apply_filters('mbds_toc_link_shortcode', $html_output);
 }

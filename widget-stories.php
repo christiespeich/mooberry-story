@@ -8,11 +8,11 @@ class mbds_Story_Widget extends WP_Widget {
 			'mbds_story_widget',
 			 
 			// name of the widget
-			__('Mooberry Story - Stories List', 'mbd-blog-post-series' ),
+			__('Mooberry Story - Stories List', 'mooberry-story' ),
 			 
 			// widget options
 			array (
-				'description' => __( 'Displays a list of stories.', 'mbd-blog-post-series' ),
+				'description' => __( 'Displays a list of stories.', 'mooberry-story' ),
 				'classname' => 'mbds_Story_Widget',
 			)
 			 
@@ -79,7 +79,7 @@ class mbds_Story_Widget extends WP_Widget {
 			echo '</ul>';
 		} else {
 			echo '<span class="mbs_story_widget_none">';
-			echo __('No stories found', 'mbd-blog-post-series');
+			echo __('No stories found', 'mooberry-story');
 			echo '</span>';
 		}
 		echo $after_widget;
