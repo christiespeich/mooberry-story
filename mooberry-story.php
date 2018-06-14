@@ -3,7 +3,7 @@
 Plugin Name: Mooberry Story
 Plugin URI:  http://www.mooberrydreams.com/products/mooberry-story
 Description: Organizes multiple blog posts into a series. Make it easy for readers to find your stories, including older ones.
-Version:     1.2.3
+Version:     1.3
 Author:      Mooberry Dreams
 Author URI:  https://profiles.wordpress.org/mooberrydreams/
 License:     GPL2
@@ -29,7 +29,7 @@ along with Mooberry Story. If not, see https://www.gnu.org/licenses/gpl-2.0.html
 define('MBDS_PLUGIN_DIR', plugin_dir_path( __FILE__ )); 
 
 define('MBDS_PLUGIN_VERSION_KEY', 'mbds_version');
-define('MBDS_PLUGIN_VERSION', '1.2.3'); 
+define('MBDS_PLUGIN_VERSION', '1.3');
 
 
 //update checker
@@ -49,6 +49,7 @@ if ( file_exists( dirname( __FILE__ ) . '/includes/cmb2/init.php' ) ) {
 require_once dirname( __FILE__ ) . '/story.php';
 require_once dirname( __FILE__ ) . '/post-meta-box.php';
 require_once dirname( __FILE__ ) . '/includes/helper-functions.php';
+require_once dirname( __FILE__ ) . '/includes/updates.php';
 require_once dirname(__FILE__) . '/shortcodes.php';
 require_once dirname(__FILE__) . '/widget-stories.php';
 require_once dirname(__FILE__) . '/widget-posts.php';
@@ -235,20 +236,54 @@ function mbds_content($content) {
 		
 		$storyID = get_post_meta($post->ID, '_mbds_story', true);
 		if ($storyID != '') {
+			$story_post_meta = get_post_meta( $storyID );
+			$toc_top = isset( $story_post_meta[ '_mbds_toc_top' ][0] ) ? $story_post_meta[ '_mbds_toc_top' ][0] == 'yes' : true;
+			$next_top = isset( $story_post_meta[ '_mbds_next_top' ][0] ) ? $story_post_meta[ '_mbds_next_top' ][0] == 'yes' : true;
+			$prev_top = isset( $story_post_meta[ '_mbds_prev_top' ][0] ) ? $story_post_meta[ '_mbds_prev_top' ][0] == 'yes' : true;
+			
+			$toc_bottom = isset( $story_post_meta[ '_mbds_toc_bottom' ][0] ) ? $story_post_meta[ '_mbds_toc_bottom' ][0] == 'yes' : true;
+			$next_bottom = isset( $story_post_meta[ '_mbds_next_bottom' ][0] ) ? $story_post_meta[ '_mbds_next_bottom' ][0] == 'yes' : true;
+			$prev_bottom = isset( $story_post_meta[ '_mbds_prev_bottom' ][0] ) ? $story_post_meta[ '_mbds_prev_bottom' ][0] == 'yes' : true;
+
+			
 			$story_text = $content;
+			$content = '';
 			$mbds_story = mbds_get_story($storyID);
-			$content = '[mbs_toc_link]';
-			$content .= '[mbs_prev][mbs_next]<br style="clear:both;">';
+			if ( $toc_top ) {
+				$content .= '[mbs_toc_link]';
+			}
+			if ( $prev_top ) {
+				$content .= '[mbs_prev]';
+			}
+			if ( $next_top) {
+				$content .= '[mbs_next]';
+			}
+			$content .= '<br style="clear:both;">';
 			$content .= '<h2 class="mbs_posts_title">';
 			
 			if (isset($mbds_story['_mbds_include_posts_name'])) {
 				 $content .= mbds_display_posts_name($mbds_story, $post->ID) . '<br>';
 			 }
-			
-			$content .= $post->post_title . '</h2>';
+
+			$alt_title = get_post_meta( $post->ID, '_mbds_alt_chapter_title', true );
+			if ( $alt_title != '' ) {
+				$title = $alt_title;
+			} else {
+				$title = $post->post_title;
+			}
+
+			$content .= $title . '</h2>';
 			$content .= '<div class="mbs_posts_text">' . $story_text . '</div>';
-			$content .= '[mbs_toc_link]';
-			$content .= '[mbs_prev][mbs_next]<br style="clear:both;">';
+			if ( $toc_bottom ) {
+				$content .= '[mbs_toc_link]';
+			}
+			if ( $prev_bottom ) {
+				$content .= '[mbs_prev]';
+			}
+			if ( $next_bottom) {
+				$content .= '[mbs_next]';
+			}
+			$content .= '<br style="clear:both;">';
 		}
 	}
 	
@@ -275,10 +310,10 @@ function mbds_condition_filter_title($query){
 	// tc_title_text for theme Customizr
 	if($query === $wp_query){
 		add_filter( 'the_title', 'mbds_posts_title', 10, 2);
-		add_filter('tc_title_text', 'mbds_posts_title');
+		add_filter('tc_title_text', 'mbds_posts_title', 10, 2);
 	}else{
-		remove_filter('the_title','mbds_posts_title', 10, 2);
-		remove_filter('tc_title_text', 'mbds_posts_title');
+		remove_filter('the_title','mbds_posts_title', 10);
+		remove_filter('tc_title_text', 'mbds_posts_title', 10);
 	}
 }
 

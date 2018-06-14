@@ -6,12 +6,12 @@
 	padding: 0;
 }
 
-#cmb2-metabox-_mbds_story_meta_box  .cmb-th {
-	width: 25%;
+#cmb2-metabox-_mbds_story_meta_box  .cmb-th, #cmb2-metabox-mbds_display  .cmb-th  {
+	width: 30%;
 }
 
-#cmb2-metabox-_mbds_story_meta_box .cmb-th+.cmb-td {
-	width: 73%;
+#cmb2-metabox-_mbds_story_meta_box .cmb-th+.cmb-td, #cmb2-metabox-mbds_display .cmb-th+.cmb-td  {
+	width: 67%;
 }
 
 #mbds_post_grid { list-style-type: none; margin: 10px; padding: 0; width: 60%; }

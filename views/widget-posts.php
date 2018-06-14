@@ -5,7 +5,7 @@
 <p>
 	<label id="<?php echo $this->get_field_id( 'mbds_pw_story' ); ?>_label" for="<?php echo $this->get_field_id( 'mbds_pw_story' ); ?>"><?php _e('Which story:', 'mooberry-story'); ?></label>
 	<select id="<?php echo $this->get_field_id('mbds_pw_story'); ?>" name="<?php echo $this->get_field_name('mbds_pw_story'); ?>"  >
-		<?php echo mbds_get_stories_dropdown( $mbds_pw_story ); ?>
+		<?php echo mbds_get_stories_dropdown( $mbds_pw_story, true ); ?>
 	</select>
 </p>
 <p id="<?php echo $this->get_field_id( 'mbds_pw_count' ); ?>_p">

@@ -25,7 +25,15 @@ function mbds_init_post_meta_box() {
 		'type'       => 'select',
 		'options'	=> mbds_get_story_list(),
 		
-	) ) );	
+	) ) );
+
+	$post_meta_box->add_field( apply_filters( 'mbds_posts_chapter_title_field', array(
+		'name'  =>  __('Alternative Chapter Title', 'mooberry-story' ),
+		'id'    =>  $prefix . 'alt_chapter_title',
+		'type'  =>  'text',
+		'desc'   =>  __('Use if you don\'t want the post title to be used as the title on the Table of Contents. Leave blank to use the post title above', 'mooberry-story'),
+	) ) );
+
 	/*
 	$post_meta_box->add_field( apply_filters('mbds_posts_summary_field', array(
 		'name'       => __( 'Summary', 'mooberry-story' ),

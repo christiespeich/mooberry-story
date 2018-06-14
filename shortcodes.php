@@ -125,6 +125,11 @@ function mbds_shortcode_toc( $attr, $content ) {
 	$html_output .= '<ul class="mbs_toc_list">';
 	$posts = mbds_get_posts_list( $storyID );
 	foreach ($posts as $each_post) {
+		$alt_title = get_post_meta( $each_post['ID'], '_mbds_alt_chapter_title', true );
+		if ( $alt_title != '' ) {
+			$post['title'] = $alt_title;
+		}
+
 		$html_output .= '<li><a href="' . $each_post['link'] . '">';
 		if (isset($mbds_story['_mbds_include_posts_name'])) {
 			$html_output .= '<span class="mbs_toc_item_posts_name">' . mbds_display_posts_name($mbds_story, $each_post['ID']) . ': </span>';

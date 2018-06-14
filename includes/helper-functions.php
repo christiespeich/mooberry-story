@@ -18,18 +18,46 @@ function mbds_get_storyID_by_slug($story) {
 	
 }
 
-function mbds_get_story_list() {
-		$posts = get_posts(array('posts_per_page' => -1,
-				'post_status'	=> 'publish',
-				'post_type' => 'mbds_story',
-				));
-		$stories = array();
-		$stories['0'] = '';
-		foreach ($posts as $post) {
-			$stories[$post->ID] = $post->post_title;
-		}
-		wp_reset_postdata();
-		return apply_filters('mbds_story_list', $stories);
+function mbds_get_story_list( $all_stories = false ) {
+
+	if ( $all_stories ) {
+		$posts = get_posts( array(
+			'posts_per_page' => -1,
+			'post_status'    => 'publish',
+			'post_type'      => 'mbds_story',
+		) );
+	} else {
+
+		// get all stories for this author
+		$this_author = get_posts( array(
+			'posts_per_page' => -1,
+			'post_status'    => 'publish',
+			'post_type'      => 'mbds_story',
+			'author'    => get_current_user_id(),
+		) );
+
+		// get all stories not from this author that
+		// also allow other authors to contribute
+		$open_stories = get_posts( array(
+			'posts_per_page'    =>  -1,
+			'post_status'   =>  'publish',
+			'post_type'     =>  'mbds_story',
+			'meta_query'    => array(array(
+				'key'   =>  '_mbds_open_story',
+				'value' =>  'yes',
+			)),
+		) );
+
+		$posts = array_merge ( $this_author, $open_stories );
+	
+	}
+	$stories = array();
+	$stories['0'] = '';
+	foreach ($posts as $post) {
+		$stories[$post->ID] = $post->post_title;
+	}
+	wp_reset_postdata();
+	return apply_filters('mbds_story_list', $stories);
 }
 
 function mbds_get_story( $storyID ) {
@@ -175,11 +203,20 @@ function mbds_get_posts_list( $storyID ) {
 	
 		$key = array_search($post->ID, $posts_list);
 		if ($key !== false) {
+			$alt_title = get_post_meta( $post->ID, '_mbds_alt_chapter_title', true );
+			if ( $alt_title != '' ) {
+				$title = $alt_title;
+			} else {
+				$title = $post->post_title;
+			}
 			$posts_list[$key] = array('ID' => $post->ID,
-									'title' => $post->post_title,
+									'title' => $title,
 									'link'	=> get_permalink($post->ID),
 									'order'	=> $key);
 		}
+
+
+
 	}
 	
 	wp_reset_postdata();
@@ -203,8 +240,14 @@ function mbds_get_most_recent_post( $storyID) {
 		$posts = get_posts($post_args);
 		wp_reset_postdata();
 		if (count($posts)>0) {
+			$alt_title = get_post_meta( $posts[0]->ID, '_mbds_alt_chapter_title', true );
+			if ( $alt_title != '' ) {
+				$title = $alt_title;
+			} else {
+				$title = $posts[0]->post_title;
+			}
 			return array(array('ID' => $posts[0]->ID,
-									'title' => $posts[0]->post_title,
+									'title' => $title,
 									'link'	=> get_permalink($posts[0]->ID),
 									'order'	=> '0'));
 		} else {
@@ -301,8 +344,8 @@ function mbds_get_tax_terms_dropdown ($taxonomy, $selected) {
 
 
 
-function mbds_get_stories_dropdown( $selected ) {
-	$stories = mbds_get_story_list();
+function mbds_get_stories_dropdown( $selected, $all_stories = false ) {
+	$stories = mbds_get_story_list( $all_stories );
 	return apply_filters('mbds_stories_dropdown', mbds_output_dropdown( $stories, $selected));
 }
 

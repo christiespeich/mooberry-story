@@ -12,6 +12,11 @@ function mbds_init_story_meta_box() {
 	// Start with an underscore to hide fields from custom fields list
 	$prefix = '_mbds_';
 
+	$yes_no =  array(
+								'yes'   =>  __('Yes', 'mooberry-story'),
+								'no' =>  __('No', 'mooberry-story'),
+		);
+
 	$story_meta_box = new_cmb2_box( apply_filters('mbds_story_meta_box', array(
 		'id'            => $prefix . 'story_meta_box',
 		'title'         => __( 'About the Story', 'mooberry-story' ),
@@ -39,7 +44,16 @@ function mbds_init_story_meta_box() {
 		'id'         => $prefix . 'custom_type',
 		'type'       => 'text',
 	) ) );
-	
+
+
+	$story_meta_box->add_field( apply_filters( 'mbds_story_open_story_field', array(
+		'name'      =>  __('Can other users add to this story?', 'mooberry-story'),
+		'id'        =>  $prefix . 'open_story',
+		'type'      => 'select',
+		'default'   =>  'no',
+		'options'   =>  $yes_no,
+	)	)	);
+
 	$story_meta_box->add_field( apply_filters('mbds_story_posts_name_field', array(
 		'name'       => __( 'Posts Should Be Called', 'mooberry-story' ),
 		'id'         => $prefix . 'posts_name',
@@ -108,8 +122,56 @@ function mbds_init_story_meta_box() {
 			'allow' => array(  'attachment' ) // limit to just attachments with array( 'attachment' )
 	)));
 	
+	$story_display_meta_box = new_cmb2_box( apply_filters('mbds_story_display_meta_box', array(
+		'id'            => 'mbds_display',
+		'title'         => __('Story Display Settings',  'mooberry-story' ),
+		'object_types'  => array( 'mbds_story', ), // Post type
+		'context'       => 'normal',
+		'priority'      => 'high',
+		'show_names'    => true, // Show field names on the left
+	)));
+
+	$story_display_meta_box->add_field( apply_filters('mbds_story_prev_top', array(
+		'name'  =>  __('Show Previous Chapter Link on top of page?', 'mooberry-story' ),
+		'id'    =>  '_mbds_prev_top',
+		'type'  =>  'select',
+		'options'    =>  $yes_no,
+		)));
 	
+	$story_display_meta_box->add_field( apply_filters('mbds_story_next_top', array(
+		'name'  =>  __('Show Next Chapter Link on top of page?', 'mooberry-story' ),
+		'id'    =>  '_mbds_next_top',
+		'type'  =>  'select',
+		'options'    =>  $yes_no,
+		)));
 	
+	$story_display_meta_box->add_field( apply_filters('mbds_story_toc_top', array(
+		'name'  =>  __('Show Table of Contents Link on top of page?', 'mooberry-story' ),
+		'id'    =>  '_mbds_toc_top',
+		'type'  =>  'select',
+		'options'    =>  $yes_no,
+		)));
+	
+		$story_display_meta_box->add_field( apply_filters('mbds_story_prev_bottom', array(
+		'name'  =>  __('Show Previous Chapter Link on bottom of page?', 'mooberry-story' ),
+		'id'    =>  '_mbds_prev_bottom',
+		'type'  =>  'select',
+		'options'    =>  $yes_no,
+		)));
+	
+	$story_display_meta_box->add_field( apply_filters('mbds_story_next_bottom', array(
+		'name'  =>  __('Show Next Chapter Link on bottom of page?', 'mooberry-story' ),
+		'id'    =>  '_mbds_next_bottom',
+		'type'  =>  'select',
+		'options'    =>  $yes_no,
+		)));
+	
+	$story_display_meta_box->add_field( apply_filters('mbds_story_toc_bottom', array(
+		'name'  =>  __('Show Table of Contents Link on bottom of page?', 'mooberry-story' ),
+		'id'    =>  '_mbds_toc_bottom',
+		'type'  =>  'select',
+		'options'    =>  $yes_no,
+		)));
 }
 
 add_action('add_meta_boxes_mbds_story', 'mbds_add_posts_meta_box');
