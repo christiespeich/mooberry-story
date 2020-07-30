@@ -1,5 +1,5 @@
 <?php
-	
+
 add_shortcode( 'mbs_next', 'mbds_shortcode_next' );
 add_shortcode( 'mbs_prev', 'mbds_shortcode_prev' );
 add_shortcode( 'mbs_summary', 'mbds_shortcode_summary');
@@ -15,7 +15,7 @@ function mbds_get_storyID($story) {
 	} else {
 		return mbds_get_storyID_by_slug($story);
 	}
-	
+
 }
 
 function mbds_output_summary($display, $postID) {
@@ -36,7 +36,7 @@ function mbds_next_prev($nextprev, $text, $story, $summary) {
 	$mbds_story = mbds_get_story($storyID);
 	if ($storyID == '') {
 		return $html_output;
-	}	
+	}
 	$posts = mbds_get_posts_list($storyID);
 	$found = null;
 	foreach($posts as $one_post) {
@@ -44,9 +44,9 @@ function mbds_next_prev($nextprev, $text, $story, $summary) {
 				$found = $one_post['order'];
 			}
 	}
-	
+
 	if ($found !== null) {
-		
+
 		if ($nextprev == 'next') {
 			// make sure not last item if next
 			$found++;
@@ -61,7 +61,7 @@ function mbds_next_prev($nextprev, $text, $story, $summary) {
 			} else {
 				$found = $found - 1;
 			}
-		}	
+		}
 		if ($found !== null) {
 			$html_output .= '<div class="mbs_' . $nextprev . '">' . $text . ': <a href="' . $posts[$found]['link'] . '">';
 			if (isset($mbds_story['_mbds_include_posts_name'])) {
@@ -73,21 +73,21 @@ function mbds_next_prev($nextprev, $text, $story, $summary) {
 		}
 	}
 	return $html_output;
-		
+
 }
 
 
 function mbds_shortcode_next($attr, $content) {
 	$attr = shortcode_atts(array('summary' => 'no',
 								'story' => ''), $attr);
-	
+
 	return apply_filters('mbds_next_shortcode', mbds_next_prev('next', __('Next', 'mooberry-story'), $attr['story'], $attr['summary']));
 }
 
 function mbds_shortcode_prev($attr, $content) {
 	$attr = shortcode_atts(array('summary' => 'no',
 								'story' => ''), $attr);
-								
+
 	return apply_filters('mbds_prev_shortcode', mbds_next_prev('prev', __('Previous', 'mooberry-story'), $attr['story'], $attr['summary']));
 }
 
@@ -101,7 +101,7 @@ function mbds_shortcode_summary($attr, $content) {
 		$html_output .= '<p>' .  preg_replace('/\\n/', '</p><p>',$mbds_story['_mbds_summary']) . '</p>';
 	}
 	$html_output .= '</div>';
-		
+
 	return apply_filters('mbds_summary_shortcode', $html_output);
 }
 
@@ -118,27 +118,47 @@ function mbds_shortcode_cover( $attr, $content) {
 }
 
 function mbds_shortcode_toc( $attr, $content ) {
-	$attr = shortcode_atts(array('story' => ''), $attr);
-	$storyID = mbds_get_storyID($attr['story']);
-	$mbds_story = mbds_get_story($storyID);
-	$html_output = '<div class="mbs_toc"><h2 class="mbs_toc_title">' .  __('Table of Contents', 'mooberry-story') . '</h2>';
-	$html_output .= '<ul class="mbs_toc_list">';
-	$posts = mbds_get_posts_list( $storyID );
-	foreach ($posts as $each_post) {
+	$attr       = shortcode_atts( array( 'story' => '' ), $attr );
+	$storyID    = mbds_get_storyID( $attr['story'] );
+	$mbds_story = mbds_get_story( $storyID );
+
+	$html_output = '<div class="mbs_meta">';
+	//$series = get_the_terms( $storyID, 'mbds_series');
+	if ( is_array($mbds_story['series']) && count($mbds_story['series']) > 0 ) {
+		$html_output .= '<div class="mbs_meta_series"><span class="mbs_meta_label mbs_meta_series_label">' . __( 'Series:', 'mooberry-story' ) . '</span> <span class="mbs_meta_value mbs_meta_series">' . get_the_term_list( $storyID, 'mbds_series', '',', ' ) . '</span></div>';
+	}
+	//$genres = get_the_terms( $storyID, 'mbds_genre');
+	if ( is_array($mbds_story['genres']) && count($mbds_story['genres']) > 0 ) {
+		$html_output .= '<div class="mbs_meta_genre"><span class="mbs_meta_label mbs_meta_genre_label">' . _n( 'Genre:', 'Genres:', count($mbds_story['genres']), 'mooberry-story' ) . '</span> <span class="mbs_meta_value mbs_meta_genre">' . get_the_term_list( $storyID, 'mbds_genre', '',', ' ) . '</div>';
+	}
+	$complete = isset($mbds_story['_mbds_complete']) ? 'Yes' : 'No';
+	$html_output .= '<div class="mbs_meta_complete"><span class="mbs_meta_label mbs_meta_complete_label">' . __('Completed:', 'mooberry-story') . '</span> <span class="mbs_meta_value mbs_meta_complete">' . $complete;
+
+	$total_word_count = mbds_get_story_word_count($storyID);
+	$html_output .= '<div class="mbs_meta_word_count"><span class="mbs_meta_label mbs_meta_word_count_label">' . __('Word Count:', 'mooberry-story') . '</span> <span class="mbs_meta_value mbs_meta_word_count">' . $total_word_count;
+
+	$html_output .= '<div class="mbs_toc"><h2 class="mbs_toc_title">' . __( 'Table of Contents', 'mooberry-story' ) . '</h2>';
+
+
+	$html_output .= '</div><ul class="mbs_toc_list">';
+	$posts       = mbds_get_posts_list( $storyID );
+	foreach ( $posts as $each_post ) {
 		$alt_title = get_post_meta( $each_post['ID'], '_mbds_alt_chapter_title', true );
 		if ( $alt_title != '' ) {
 			$post['title'] = $alt_title;
 		}
 
 		$html_output .= '<li><a href="' . $each_post['link'] . '">';
-		if (isset($mbds_story['_mbds_include_posts_name'])) {
-			$html_output .= '<span class="mbs_toc_item_posts_name">' . mbds_display_posts_name($mbds_story, $each_post['ID']) . ': </span>';
+		if ( isset( $mbds_story['_mbds_include_posts_name'] ) ) {
+			$html_output .= '<span class="mbs_toc_item_posts_name">' . mbds_display_posts_name( $mbds_story, $each_post['ID'] ) . ': </span>';
 		}
-		$html_output .= '<span class="mbs_toc_item_title">' . $each_post['title'] . '</span></a></li>';
+		$html_output .= '<span class="mbs_toc_item_title">' . $each_post['title'] . '</span></a>';
+		$html_output .= ' <span class="mbs_toc_item_word_count">(' . mbds_get_word_count(get_post_field('post_content',$each_post['ID'])) . ' words)</span></li>';
 	}
 	$html_output .= '</ul>';
 	$html_output .= '</div>';
-	return apply_filters('mbds_toc_shortcode', $html_output);
+
+	return apply_filters( 'mbds_toc_shortcode', $html_output );
 }
 
 function mbds_shortcode_toc_link( $attr, $content) {

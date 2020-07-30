@@ -15,18 +15,18 @@ Mooberry Story is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 2 of the License, or
 any later version.
- 
+
 Mooberry Story is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
- 
+
 You should have received a copy of the GNU General Public License
 along with Mooberry Story. If not, see https://www.gnu.org/licenses/gpl-2.0.html.
 
 */
 
-define('MBDS_PLUGIN_DIR', plugin_dir_path( __FILE__ )); 
+define('MBDS_PLUGIN_DIR', plugin_dir_path( __FILE__ ));
 
 define('MBDS_PLUGIN_VERSION_KEY', 'mbds_version');
 define('MBDS_PLUGIN_VERSION', '1.4');
@@ -63,18 +63,18 @@ require_once dirname(__FILE__) . '/widget-posts.php';
 register_activation_hook( __FILE__, 'mbds_activate' );
 function mbds_activate() {
 	mbds_init();
-	
+
 	global $wp_rewrite;
 	$wp_rewrite->flush_rules();
 }
 
 add_action('plugins_loaded', 'mbds_plugins_loaded');
 function mbds_plugins_loaded() {
-	
+
 	load_plugin_textdomain( 'mooberry-story', FALSE, basename( MBDS_PLUGIN_DIR ) . '/languages/' );
 }
 
-add_action( 'admin_head', 'mbds_register_admin_styles' );	 
+add_action( 'admin_head', 'mbds_register_admin_styles' );
 function mbds_register_admin_styles() {
 	wp_register_style( 'mbds-admin-styles', plugins_url( 'css/admin-style.css', __FILE__)  );
 	wp_enqueue_style( 'mbds-admin-styles' );
@@ -84,14 +84,14 @@ function mbds_register_admin_styles() {
 
 add_action( 'admin_footer', 'mbds_register_script');
 function mbds_register_script() {
-	
+
 	//wp_enqueue_script( 'mbds-admin-post-series', plugins_url(  'js/admin-post-series.js', __FILE__), array('jquery'));
-	
+
 	wp_enqueue_script( 'mbds-admin-story-widget', plugins_url( 'js/admin-story-widget.js', __FILE__));
-	
+
 	// story cpt js
 	wp_enqueue_script('jquery-ui-sortable');
-	wp_enqueue_script( 'mbds-admin-story', plugins_url(  'js/admin-story.js', __FILE__), array('jquery')); 
+	wp_enqueue_script( 'mbds-admin-story', plugins_url(  'js/admin-story.js', __FILE__), array('jquery'));
 	// in JavaScript, object properties are accessed as ajax_object.ajax_url, ajax_object.we_value
 	wp_localize_script( 'mbds-admin-story', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'security' => wp_create_nonce( 'mbds_story_cpt_ajax_nonce' ) ) );
 }
@@ -102,10 +102,10 @@ function mbds_register_styles() {
 	wp_enqueue_style( 'mbds-styles' );
 }
 
-add_action( 'init', 'mbds_init' );	
+add_action( 'init', 'mbds_init' );
 function mbds_init() {
 	register_post_type('mbds_story',
-			apply_filters('mbds_story_cpt', array(	
+			apply_filters('mbds_story_cpt', array(
 			'label' => __('Stories', 'mooberry-story' ),
 			'public' => true,
 			'show_ui' => true,
@@ -141,10 +141,10 @@ function mbds_init() {
 				),
 			) )
 		);
-		
-		register_taxonomy('mbds_genre', 'mbds_story', 
+
+		register_taxonomy('mbds_genre', 'mbds_story',
 			apply_filters('mdbs_genre_taxonomy', array(
-				//'rewrite' => false, 
+				//'rewrite' => false,
 				'rewrite' => array(	'slug' => 'mbds_genres' ),
 				'public' => true, //false,
 				'show_admin_column' => true,
@@ -153,7 +153,7 @@ function mbds_init() {
 					'manage_terms' => 'manage_categories',
 					'edit_terms'   => 'manage_categories',
 					'delete_terms' => 'manage_categories',
-					'assign_terms' => 'edit_posts',				
+					'assign_terms' => 'edit_posts',
 				),
 				'labels' => array(
 					'name' => __('Genres', 'mooberry-story'),
@@ -177,9 +177,9 @@ function mbds_init() {
 				)
 			) )
 		);
-		
-		register_taxonomy('mbds_series', 'mbds_story', 
-			apply_filters('mbds_series_taxonomy', array( 
+
+		register_taxonomy('mbds_series', 'mbds_story',
+			apply_filters('mbds_series_taxonomy', array(
 			'rewrite' =>  array( 'slug' => 'mbds_series' ),
 			'public' => true, // false,
 			'show_admin_column' => true,
@@ -188,7 +188,7 @@ function mbds_init() {
 				'manage_terms' => 'manage_categories',
 				'edit_terms'   => 'manage_categories',
 				'delete_terms' => 'manage_categories',
-				'assign_terms' => 'edit_posts',				
+				'assign_terms' => 'edit_posts',
 			),
 			'labels' => array(
 				'name' => __('Series', 'mooberry-story'),
@@ -211,10 +211,10 @@ function mbds_init() {
 				'items_list'            => __( 'Series list', 'mooberry-story' ),
 			)
 		) )
-	);		
+	);
 }
 
-add_action( 'widgets_init', 'mbds_register_story_widget' ); // function to load my widget 
+add_action( 'widgets_init', 'mbds_register_story_widget' ); // function to load my widget
 function mbds_register_story_widget() {
 	register_widget('mbds_Story_Widget');
 	register_widget('mbds_Posts_Widget');
@@ -224,33 +224,33 @@ function mbds_register_story_widget() {
 add_filter( 'the_content', 'mbds_content');
 function mbds_content($content) {
 	global $post;
-	
+
 	// this weeds out content in the sidebar and other odd places
 		// thanks joeytwiddle for this update
 		// added in version 2.3
 		if (!in_the_loop() || !is_main_query() ) {
 			return $content;
 		}
-		
+
 		if (!is_single()) {
 			return $content;
 		}
-	
+
 	//if it's a post that is part of a story, add next and prev links to top and bottom
 	if ( get_post_type() == 'post' && is_main_query() && !is_admin() ) {
-		
+
 		$storyID = get_post_meta($post->ID, '_mbds_story', true);
 		if ($storyID != '') {
 			$story_post_meta = get_post_meta( $storyID );
 			$toc_top = isset( $story_post_meta[ '_mbds_toc_top' ][0] ) ? $story_post_meta[ '_mbds_toc_top' ][0] == 'yes' : true;
 			$next_top = isset( $story_post_meta[ '_mbds_next_top' ][0] ) ? $story_post_meta[ '_mbds_next_top' ][0] == 'yes' : true;
 			$prev_top = isset( $story_post_meta[ '_mbds_prev_top' ][0] ) ? $story_post_meta[ '_mbds_prev_top' ][0] == 'yes' : true;
-			
+
 			$toc_bottom = isset( $story_post_meta[ '_mbds_toc_bottom' ][0] ) ? $story_post_meta[ '_mbds_toc_bottom' ][0] == 'yes' : true;
 			$next_bottom = isset( $story_post_meta[ '_mbds_next_bottom' ][0] ) ? $story_post_meta[ '_mbds_next_bottom' ][0] == 'yes' : true;
 			$prev_bottom = isset( $story_post_meta[ '_mbds_prev_bottom' ][0] ) ? $story_post_meta[ '_mbds_prev_bottom' ][0] == 'yes' : true;
 
-			
+
 			$story_text = $content;
 			$content = '';
 			$mbds_story = mbds_get_story($storyID);
@@ -265,7 +265,7 @@ function mbds_content($content) {
 			}
 			$content .= '<br style="clear:both;">';
 			$content .= '<h2 class="mbs_posts_title">';
-			
+
 			if (isset($mbds_story['_mbds_include_posts_name'])) {
 				 $content .= mbds_display_posts_name($mbds_story, $post->ID) . '<br>';
 			 }
@@ -291,15 +291,15 @@ function mbds_content($content) {
 			$content .= '<br style="clear:both;">';
 		}
 	}
-	
+
 	// if it's a story page, show the TOC
 	if (get_post_type() == 'mbds_story' && is_main_query() && !is_admin() ) {
 		$mbds_story = mbds_get_story( $post->ID );
-		
+
 		$slug = $post->post_name;
-		
+
 		$content = '[mbs_cover story="' . $slug . '"]';
-		
+
 		$content .= '[mbs_summary story="' . $slug . '"]';
 
 		$content .= '[mbs_toc story="' . $slug . '"]';
@@ -332,11 +332,11 @@ function mbds_posts_title( $title, $id ) {
 		if (!in_the_loop() || !is_main_query() ) {
 			return $title;
 		}
-			
-		
-		
+
+
+
 	if (get_post_type() == 'post' && is_main_query() && !is_admin() && $post->ID == $id) {
-		
+
 		$storyID = get_post_meta($post->ID, '_mbds_story', true);
 		$story = mbds_get_story($storyID);
 		if (count($story) != 0) {
@@ -369,9 +369,9 @@ function mbds_posts_breadcrumb( $trail, $args) {
 		if (!in_the_loop() || !is_main_query() ) {
 			return $trail;
 		}
-		
+
 	if (get_post_type() == 'post' && is_main_query() && !is_admin()) {
-		
+
 		$storyID = get_post_meta($post->ID, '_mbds_story', true);
 		$story = mbds_get_story($storyID);
 		if (count($story) != 0) {
@@ -382,40 +382,45 @@ function mbds_posts_breadcrumb( $trail, $args) {
 	}
 	return $trail;
 }
-	
 
-add_filter( 'wp_title', 'mbds_wp_title', 10, 2 );
-function mbds_wp_title($title, $sep ) {
-	
+
+add_filter( 'pre_get_document_title', 'mbds_wp_title', 10 );
+//add_filter( 'the_title', 'mbds_wp_title', 10 );
+function mbds_wp_title($title ) {
+
 	if ( is_feed() ) {
 		return $title;
 	}
 	// this weeds out content in the sidebar and other odd places
-		// thanks joeytwiddle for this update
-		// added in version 2.3
-		if (!in_the_loop() || !is_main_query() ) {
-			return $title;
-		}
-		
-	if (get_post_type() == 'mbds_story' && is_main_query() && !is_admin() ) {
+	// thanks joeytwiddle for this update
+	// added in version 2.3
+	if ( ! in_the_loop() || ! is_main_query() ) {
+		return $title;
+	}
+
+	if ( get_post_type() == 'mbds_story' && is_main_query() && ! is_admin() ) {
 		global $post;
 		$mbds_story = mbds_get_story( $post->ID );
-		$title = $mbds_story['title'] . ' - ' . __('A', 'mooberry-story');
-		
-		if (isset($mbds_story['genres'])) {
-			if (count($mbds_story['genres']>0)) {
-				foreach ($mbds_story['genres'] as $genre) {
+		$title      = $mbds_story['title'] . ' - ' . __( 'A', 'mooberry-story' );
+
+		if ( isset( $mbds_story['genres'] ) ) {
+			$genres = $mbds_story['genres'];
+			if ( ! is_array( $genres ) ) {
+				$genres = array( $genres );
+			}
+			if ( count( $genres ) > 0 ) {
+				foreach ( $genres as $genre ) {
 					$title .= ' ' . $genre->name . ',';
 				}
 				// remove the last ','
-				$title = substr($title, 0, -1);
+				$title = substr( $title, 0, - 1 );
 			}
 		}
-		$title .= ' ' . $mbds_story['_mbds_type'] . ' ' . $sep . ' ' . get_bloginfo( 'name', 'display' );
-	
+		$title .= ' ' . $mbds_story['_mbds_type']; // . ' ' . $sep . ' ' . get_bloginfo( 'name', 'display' );
+
 	}
-	
-	return apply_filters('mbds_wp_title', $title);
+
+	return apply_filters( 'mbds_wp_title', $title );
 }
 
 

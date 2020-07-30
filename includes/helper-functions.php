@@ -1,6 +1,6 @@
 <?php
 function mbds_log($var) {
-		error_log(print_r($var, true)); 
+		error_log(print_r($var, true));
 }
 
 function mbds_get_storyID_by_slug($story) {
@@ -15,7 +15,7 @@ function mbds_get_storyID_by_slug($story) {
 	} else {
 		return '';
 	}
-	
+
 }
 
 function mbds_get_story_list( $all_stories = false ) {
@@ -49,7 +49,7 @@ function mbds_get_story_list( $all_stories = false ) {
 		) );
 
 		$posts = array_merge ( $this_author, $open_stories );
-	
+
 	}
 	$stories = array();
 	$stories['0'] = '';
@@ -92,16 +92,16 @@ function mbds_get_story( $storyID ) {
 function mbds_get_stories($filter, $complete, $series, $genre) {
 	//$meta_query = array();
 	//$tax_query = array();
-	
+
 	$args = array(
 			'post_type'	=>	'mbds_story',
 			'posts_per_page' => -1,
 			'post_status'	=> 'publish',
 			'order'			=> 'ASC',
 			'orderby'		=> 'title');
-	
 
-	
+
+
 	if ($filter == 'recent') {
 		// get all posts that are part of a story
 		// order by post_modified desc
@@ -122,11 +122,11 @@ function mbds_get_stories($filter, $complete, $series, $genre) {
 			$storyID = get_post_meta($posts[0]->ID, '_mbds_story', true);
 			$args['post__in'] = array($storyID);
 		} else {
-			return null;  // nothing to return 
+			return null;  // nothing to return
 		}
 	}
-	
-	
+
+
 	if ($complete == 'complete') {
 		$meta_query[] = array( 	'key'		=>	'_mbds_complete',
 								'value'		=>	'on',
@@ -167,40 +167,40 @@ function mbds_get_stories($filter, $complete, $series, $genre) {
 			$tax_query = array( $tax_query);
 		}
 	}
-	
+
 	if (isset($meta_query)) {
 		$args['meta_query']	= $meta_query;
 	}
 	if (isset($tax_query)) {
 			$args['tax_query']	= $tax_query;
-	
+
 	}
 	$stories = get_posts($args);
 	wp_reset_postdata();
 	return apply_filters('mbds_stories', $stories);
-						
-						
+
+
 }
 
 function mbds_get_posts_list( $storyID ) {
-	
+
 	//$mbdbps_series = get_option('mbdbps_series');
 	$posts_list = get_post_meta($storyID, '_mbds_posts', true);
-	
+
 	if ($posts_list == '') {
 		return apply_filters('mbds_posts_list', array());
 	}
-		
+
 	$args = array(
 				'posts_per_page' => -1,
 				'post_status'	=> 'publish',
 				'post__in' => $posts_list);
-	
-	$posts = get_posts( $args ); 
-	
-	
+
+	$posts = get_posts( $args );
+
+
 	foreach ($posts as $post) {
-	
+
 		$key = array_search($post->ID, $posts_list);
 		if ($key !== false) {
 			$alt_title = get_post_meta( $post->ID, '_mbds_alt_chapter_title', true );
@@ -218,9 +218,9 @@ function mbds_get_posts_list( $storyID ) {
 
 
 	}
-	
+
 	wp_reset_postdata();
-	
+
 	return apply_filters('mbds_posts_list', $posts_list);
 
 }
@@ -253,7 +253,7 @@ function mbds_get_most_recent_post( $storyID) {
 		} else {
 			return null;
 		}
-		
+
 }
 
 function mbds_get_post_names() {
@@ -287,14 +287,14 @@ function mbds_get_story_post_name( $storyID, $single_plural ) {
 		return apply_filters('mbds_story_posts_name', get_post_meta($storyID, '_mbds_custom_post_name_' . $single_plural, true));
 	} else {
 		$post_names = mbds_get_post_names();
-	
+
 		if (isset($post_names[$post_name])) {
 			return apply_filters('mbds_story_posts_name', $post_names[$post_name][$single_plural]);
 		} else {
 			return '';
 		}
 	}
-	
+
 }
 
 function mbds_display_posts_name($story, $postID) {
@@ -315,7 +315,7 @@ function mbds_output_dropdown( $options, $selected) {
 	}
 	return apply_filters('mbds_dropdown', $html_output);
 }
-	
+
 function mbds_get_story_widget_dropdown( $selected ) {
 	$options = array(
 					'all' => __('All Stories', 'mooberry-story'),
@@ -325,9 +325,9 @@ function mbds_get_story_widget_dropdown( $selected ) {
 					'series' => __('Stories in a Series', 'mooberry-story'),
 					'genre' => __('Stories in a Genre', 'mooberry-story'),
 				);
-	
+
 	return apply_filters('mbds_story_widget_dropdown', mbds_output_dropdown($options, $selected));
-	
+
 }
 
 function mbds_get_tax_terms_dropdown ($taxonomy, $selected) {
@@ -339,7 +339,7 @@ function mbds_get_tax_terms_dropdown ($taxonomy, $selected) {
 		$options[$term->term_id] = $term->name;
 	}
 	return apply_filters('mbds_tax_terms_dropdown', mbds_output_dropdown( $options, $selected));
-	
+
 }
 
 
@@ -353,4 +353,28 @@ function mbds_get_post_widget_dropdown( $selected ){
 	$options = array( 'all' => __('All', 'mooberry-story'),
 						'latest' => __('Most Recent', 'mooberry-story'));
 	return apply_filters('mbds_post_widget_dropdown', mbds_output_dropdown( $options, $selected ));
+}
+
+
+/**
+ * Count the number of words in post content
+ * @param string $content The post content
+ * @return integer $count Number of words in the content
+ */
+function mbds_get_word_count( $content ) {
+    $decode_content = html_entity_decode( $content );
+    $filter_shortcode = do_shortcode( $decode_content );
+    $strip_tags = wp_strip_all_tags( $filter_shortcode, true );
+    $count = str_word_count( $strip_tags );
+    return $count;
+}
+
+function mbds_get_story_word_count( $storyID ) {
+	$count = 0;
+	$posts       = mbds_get_posts_list( $storyID );
+	foreach ( $posts as $each_post ) {
+		$count = $count + mbds_get_word_count(get_post_field('post_content', $each_post['ID']));
+	}
+
+	return $count;
 }
