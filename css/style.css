@@ -1,42 +1,44 @@
 .mbs_next, .mbs_prev {
-	width: 35%;
+    width: 35%;
 }
 
 .mbs_next {
-	float: right;
-	text-align: right;
+    float: right;
+    text-align: right;
 }
 
 .mbs_prev {
-	float: left;
-	text-align: left;
+    float: left;
+    text-align: left;
 }
 
 .mbs_toc_link {
-	width: 20%;
-	margin: 0% 5%;
+    width: 20%;
+    margin: 0% 5%;
 }
 
 .mbs_posts_text {
-	margin: 5% 0%;
+    margin: 5% 0%;
 }
 
 .mbs_cover_image, .mbs_toc {
-	width: 50%;
-	margin-left:auto; margin-right:auto; display:block;
-	margin-bottom: 20px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 20px;
 }
 
-.mbs_posts_widget_list  li{
-	list-style: decimal inside;
+.mbs_posts_widget_list li {
+    list-style: decimal inside;
 }
 
 .mbs_story_widget_list li {
-	list-style: circle inside;
+    list-style: circle inside;
 }
 
 .mbs_posts_title {
-	text-align: center;
+    text-align: center;
 }
 
 .mbs_meta_label {
