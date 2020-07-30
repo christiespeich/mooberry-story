@@ -4,7 +4,7 @@ Donate link: http://www.mooberrydreams.com/products/mooberry-story
 Tags: author, authors, writer, writers, story, creative writing, fiction, serial, book
 Requires at least: 3.8.0
 Tested up to: 4.4
-Stable tag: 1.2.2
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,8 +28,8 @@ If you have stories you've already posted on your blog, you can still use Moober
 
 == Installation ==
 
-1. Upload the entire `mooberry-story` directory to the `/wp-content/plugins/` directory  
-2. Activate the plugin through the 'Plugins' menu in WordPress  
+1. Upload the entire `mooberry-story` directory to the `/wp-content/plugins/` directory
+2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Screenshots ==
 1. Add Stories to your blog via the Stories menu. Several customization options available.
@@ -40,6 +40,9 @@ If you have stories you've already posted on your blog, you can still use Moober
 6. Two widgets and multiple options allow you to highlight stories on your sidebar so readers can find them easily.
 
 == Changelog ==
+= 1.5 =
+* Added: Now displays meta data on TOC page
+
 = 1.2.2 =
 * Fixes errors using the_title in a custom WP_Query
 
@@ -55,5 +58,5 @@ If you have stories you've already posted on your blog, you can still use Moober
 * Adds Brazilian Portuguese translation
 
 = 1.0 =
-* Initial Version  
+* Initial Version
 
