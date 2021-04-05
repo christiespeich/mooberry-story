@@ -4,7 +4,7 @@ Donate link: http://www.mooberrydreams.com/products/mooberry-story
 Tags: author, authors, writer, writers, story, creative writing, fiction, serial, book
 Requires at least: 3.8.0
 Tested up to: 5.6
-Stable tag: 1.6.1
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,9 @@ If you have stories you've already posted on your blog, you can still use Moober
 6. Two widgets and multiple options allow you to highlight stories on your sidebar so readers can find them easily.
 
 == Changelog ==
+= 1.6.2 =
+* Updated: Updated .pot/po files
+
 = 1.6.1 =
 * Updated: Added internationalization strings
 
