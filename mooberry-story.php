@@ -58,6 +58,113 @@ require_once dirname( __FILE__ ) . '/includes/updates.php';
 require_once dirname( __FILE__ ) . '/shortcodes.php';
 require_once dirname( __FILE__ ) . '/widget-stories.php';
 require_once dirname( __FILE__ ) . '/widget-posts.php';
+require_once dirname( __FILE__ ) . '/includes/admin/class-mbds-settings.php';
+require_once dirname( __FILE__ ) . '/includes/admin/class-core-settings.php';
+
+
+
+
+if ( ! class_exists( 'Mooberry_Story' ) ) :
+
+ final class Mooberry_Story {
+	 /** Singleton *************************************************************/
+
+	/**
+	 * @var Mooberry_StoryThe one true Mooberry_Story_Premium
+	 * @since 3.0
+	 */
+	private static $instance;
+	protected $settings;
+
+
+
+	/**
+	 * Main Mooberry_Book_Manager_Multi_author Instance
+	 *
+	 * Insures that only one instance of Mooberry_Storyexists in memory at any one
+	 * time. Also prevents needing to define globals all over the place.
+	 *
+	 * @since 1.0
+	 * @since 1.1 Added Settings
+	 * @static
+	 * @staticvar array $instance
+	 *
+	 * @see MBDB()
+	 * @return  Mooberry_StoryThe one true Mooberry_Story_Premium
+	 */
+	public static function instance() {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Mooberry_Story) ) {
+
+
+			self::$instance = new Mooberry_Story;
+			self::$instance->settings = new Mooberry_Story_Core_Settings();
+
+			if ( is_admin() ) {
+				add_action( 'admin_menu', array(self::$instance, 'add_options_page' ));
+			}
+/*
+			MBDB()->book_CPT->add_taxonomy( new Mooberry_Book_Manager_Taxonomy( 'mbdb_length', 'mbdb_book', 'Length', 'Lengths', array('meta_box_cb' => 'post_categories_meta_box',
+				'capabilities' => array(
+					'manage_terms' => 'manage_genre_terms', //'manage_categories',
+					'edit_terms'   => 'manage_genre_terms', //'manage_categories',
+					'delete_terms' => 'manage_genre_terms',
+					'assign_terms' => 'assign_genre_terms',
+				))));*/
+
+
+
+
+
+		}
+		return self::$instance;
+	}
+
+
+function add_options_page() {
+
+		add_menu_page( __( 'Mooberry Story Settings', 'mooberry-story' ), __( 'Mooberry Story Settings', 'mooberry-book-manager' ), 'manage_options', 'mbds_core_options', array(
+			self::$instance->settings,
+			'admin_page_display',
+		) );
+	}
+
+
+	/**
+	 * Throw error on object clone
+	 *
+	 * The whole idea of the singleton design pattern is that there is a single
+	 * object therefore, we don't want the object to be cloned.
+	 *
+	 * @since 3.0
+	 * @access protected
+	 * @return void
+	 */
+	public function __clone() {
+		// Cloning instances of the class is forbidden
+		_doing_it_wrong( __FUNCTION__, 'Cheatin&#8217; huh?', MBDSP_PLUGIN_VERSION );
+	}
+
+	/**
+	 * Disable unserializing of the class
+	 *
+	 * @since 3.0
+	 * @access protected
+	 * @return void
+	 */
+	public function __wakeup() {
+		// Unserializing instances of the class is forbidden
+		_doing_it_wrong( __FUNCTION__,  'Cheatin&#8217; huh?', MBDSP_PLUGIN_VERSION );
+	}
+
+
+
+}
+
+endif; // End if class_exists check
+
+
+
+
 
 
 register_activation_hook( __FILE__, 'mbds_activate' );
@@ -222,6 +329,8 @@ function mbds_register_story_widget() {
 	register_widget( 'mbds_Story_Widget' );
 	register_widget( 'mbds_Posts_Widget' );
 }
+
+
 
 
 add_filter( 'the_content', 'mbds_content' );
@@ -429,4 +538,25 @@ function mbds_wp_title( $title ) {
 }
 
 
+
+/**
+ * The main function responsible for returning the one true Mooberry Book Manager
+ * Instance to functions everywhere.
+ *
+ * Use this function like you would a global variable, except without needing
+ * to declare the global.
+ *
+ * Example: <?php $mbdb = MBDB(); ?>
+ *
+ * @return object The one true Mooberry_Book_Manager Instance
+ * @since 3.0
+ */
+function MBD_Story() {
+	return Mooberry_Story::instance();
+}
+
+if ( ! isset( $mbds ) ) {
+
+	$mbds = MBD_Story();
+}
 
