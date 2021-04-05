@@ -137,7 +137,7 @@ function mbds_shortcode_toc( $attr, $content ) {
 	if ( is_array( $mbds_story['genres'] ) && count( $mbds_story['genres'] ) > 0 ) {
 		$html_output .= '<div class="mbs_meta_genre"><span class="mbs_meta_label mbs_meta_genre_label">' . _n( 'Genre:', 'Genres:', count( $mbds_story['genres'] ), 'mooberry-story' ) . '</span> <span class="mbs_meta_value mbs_meta_genre">' . get_the_term_list( $storyID, 'mbds_genre', '', ', ' ) . '</div>';
 	}
-	$complete    = isset( $mbds_story['_mbds_complete'] ) ? 'Yes' : 'No';
+	$complete    = isset( $mbds_story['_mbds_complete'] ) ? __('Yes', 'mooberry-story') : __('No', 'mooberry-story');
 	$html_output .= '<div class="mbs_meta_complete"><span class="mbs_meta_label mbs_meta_complete_label">' . __( 'Completed:', 'mooberry-story' ) . '</span> <span class="mbs_meta_value mbs_meta_complete">' . $complete;
 
 	$total_word_count = mbds_get_story_word_count( $storyID );
@@ -159,7 +159,7 @@ function mbds_shortcode_toc( $attr, $content ) {
 			$html_output .= '<span class="mbs_toc_item_posts_name">' . mbds_display_posts_name( $mbds_story, $each_post['ID'] ) . ': </span>';
 		}
 		$html_output .= '<span class="mbs_toc_item_title">' . $each_post['title'] . '</span></a>';
-		$html_output .= ' <span class="mbs_toc_item_word_count">(' . mbds_get_word_count( get_post_field( 'post_content', $each_post['ID'] ) ) . ' words)</span></li>';
+		$html_output .= ' <span class="mbs_toc_item_word_count">(' . mbds_get_word_count( get_post_field( 'post_content', $each_post['ID'] ) ) . ' ' . __('words', 'mooberry-story') . ')</span></li>';
 	}
 	$html_output .= '</ul>';
 	$html_output .= '</div>';

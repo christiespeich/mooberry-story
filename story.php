@@ -23,7 +23,7 @@ function mbds_init_story_meta_box() {
 		'object_types'  => array( 'mbds_story', ), // Post type
 		 'context'    => 'normal',
 		 'priority'   => 'high',
-		 'show_names' => true, // Show field names on the left		
+		 'show_names' => true, // Show field names on the left
 	) ) );
 
 	$story_meta_box->add_field( apply_filters('mbds_story_type_field', array(
@@ -38,7 +38,7 @@ function mbds_init_story_meta_box() {
 						'serial' => 'Serial',
 						'custom' => 'Custom'),
 	) ) );
-	
+
 	$story_meta_box->add_field( apply_filters('mbds_story_custom_type_field', array(
 		'name'       => __( 'Custom Type', 'mooberry-story' ),
 		'id'         => $prefix . 'custom_type',
@@ -65,32 +65,32 @@ function mbds_init_story_meta_box() {
 						'parts' => 'Parts',
 						'custom' => 'Custom'), */
 	) ) );
-	
+
 	$story_meta_box->add_field( apply_filters('mbds_story_custom_posts_name_single_field', array(
 		'name'       => __( 'Custom Posts Name - Singular', 'mooberry-story' ),
 		'id'         => $prefix . 'custom_posts_name_single',
 		'type'       => 'text',
 	) ) );
-	
+
 	$story_meta_box->add_field( apply_filters('mbds_story_custom_posts_name_plural_field', array(
 		'name'       => __( 'Custom Posts Name - Plural', 'mooberry-story' ),
 		'id'         => $prefix . 'custom_posts_name_plural',
 		'type'       => 'text',
 	) ) );
-	
+
 	$story_meta_box->add_field( apply_filters('mbds_story_include_posts_name_field', array(
 		'name'		=> __('Include Posts Name and Count in Titles?', 'mooberry-story'),
 		'id'		=> $prefix . 'include_posts_name',
 		'type'		=> 'checkbox',
-		'desc'		=> 'Will prepend, for example, Chapter X: to the title of the post. If you just name your posts "Chapter 1", etc. don\'t check this.',
+		'desc'		=> __('Will prepend, for example, Chapter X: to the title of the post. If you just name your posts "Chapter 1", etc. don\'t check this.', 'mooberry-story'),
 	) ) );
-	
+
 	$story_meta_box->add_field( apply_filters('mbds_story_complete_field', array(
 		'name'       => __( 'Story Is Complete?', 'mooberry-story' ),
 		'id'         => $prefix . 'complete',
 		'type'       => 'checkbox',
 	) ) );
-	
+
 	$story_meta_box->add_field( apply_filters('mbds_story_summary_field', array(
 		'name'       => __( 'Story Summary', 'mooberry-story' ),
 		'id'         => $prefix . 'summary',
@@ -105,7 +105,7 @@ function mbds_init_story_meta_box() {
 				'quicktags' => true // load Quicktags, can be used to pass settings directly to Quicktags using an array()
 			),
 	) ) );
-	
+
 	$cover_image_meta_box = new_cmb2_box( apply_filters('mbds_story_cover_image_meta_box', array(
 		'id'            => 'mbds_cover_image',
 		'title'         => __('Story Cover',  'mooberry-story' ),
@@ -114,14 +114,14 @@ function mbds_init_story_meta_box() {
 		'priority'      => 'default',
 		'show_names'    => false, // Show field names on the left
 	)));
-	
+
 	$cover_image_meta_box->add_field( apply_filters('mbds_story_cover_image_field', array(
 			'name' => __('Story Cover',  'mooberry-story'),
 			'id' => '_mbds_cover',
 			'type' => 'file',
 			'allow' => array(  'attachment' ) // limit to just attachments with array( 'attachment' )
 	)));
-	
+
 	$story_display_meta_box = new_cmb2_box( apply_filters('mbds_story_display_meta_box', array(
 		'id'            => 'mbds_display',
 		'title'         => __('Story Display Settings',  'mooberry-story' ),
@@ -137,35 +137,35 @@ function mbds_init_story_meta_box() {
 		'type'  =>  'select',
 		'options'    =>  $yes_no,
 		)));
-	
+
 	$story_display_meta_box->add_field( apply_filters('mbds_story_next_top', array(
 		'name'  =>  __('Show Next Chapter Link on top of page?', 'mooberry-story' ),
 		'id'    =>  '_mbds_next_top',
 		'type'  =>  'select',
 		'options'    =>  $yes_no,
 		)));
-	
+
 	$story_display_meta_box->add_field( apply_filters('mbds_story_toc_top', array(
 		'name'  =>  __('Show Table of Contents Link on top of page?', 'mooberry-story' ),
 		'id'    =>  '_mbds_toc_top',
 		'type'  =>  'select',
 		'options'    =>  $yes_no,
 		)));
-	
+
 		$story_display_meta_box->add_field( apply_filters('mbds_story_prev_bottom', array(
 		'name'  =>  __('Show Previous Chapter Link on bottom of page?', 'mooberry-story' ),
 		'id'    =>  '_mbds_prev_bottom',
 		'type'  =>  'select',
 		'options'    =>  $yes_no,
 		)));
-	
+
 	$story_display_meta_box->add_field( apply_filters('mbds_story_next_bottom', array(
 		'name'  =>  __('Show Next Chapter Link on bottom of page?', 'mooberry-story' ),
 		'id'    =>  '_mbds_next_bottom',
 		'type'  =>  'select',
 		'options'    =>  $yes_no,
 		)));
-	
+
 	$story_display_meta_box->add_field( apply_filters('mbds_story_toc_bottom', array(
 		'name'  =>  __('Show Table of Contents Link on bottom of page?', 'mooberry-story' ),
 		'id'    =>  '_mbds_toc_bottom',
@@ -176,7 +176,7 @@ function mbds_init_story_meta_box() {
 
 add_action('add_meta_boxes_mbds_story', 'mbds_add_posts_meta_box');
 function mbds_add_posts_meta_box() {
-	
+
 	// Start with an underscore to hide fields from custom fields list
 	$prefix = '_mbds_';
 	add_meta_box( $prefix . 'posts_meta_box', __( 'Story Posts', 'mooberry-story' ), 'mbds_posts_meta_box', 'mbds_story', 'normal',
@@ -187,37 +187,37 @@ function mbds_posts_meta_box() {
 	global $post;
 	echo '<p>' . __('Drag and drop the items to reorder them.', 'mooberry-story') . '</p>';
 	echo '	<ul id="mbds_post_grid">';
-	
+
 	$posts = mbds_get_posts_list($post->ID);
 	foreach ($posts as $one_post) {
 		echo '<li id="mbds_post_' . $one_post['ID'] . '" class="ui-state-default"><span class="ui-icon"></span>' . $one_post['title'] . '</li>';
 	}
-	
+
 	echo '</ul>';
 }
 
 
-add_action( 'wp_ajax_get_story_posts', 'mbdbps_get_story_posts' );	
+add_action( 'wp_ajax_get_story_posts', 'mbdbps_get_story_posts' );
 function mbdbps_get_story_posts() {
 	$nonce = $_POST['security'];
-	
+
 	// check to see if the submitted nonce matches with the
 	// generated nonce we created earlier
 	if ( ! wp_verify_nonce( $nonce, 'mbds_story_cpt_ajax_nonce' ) ) {
 		die ( );
 	}
 	global $post;
-	
+
 	$posts = mbds_get_posts_list($post->ID);
-			
+
 	echo json_encode($posts);
-	
+
 	wp_die();
-	
+
 }
 
 
-add_action( 'wp_ajax_save_posts_grid', 'mbds_save_posts_grid' );	
+add_action( 'wp_ajax_save_posts_grid', 'mbds_save_posts_grid' );
 function mbds_save_posts_grid() {
 
 	$nonce = $_POST['security'];
@@ -229,15 +229,15 @@ function mbds_save_posts_grid() {
 
 	// v1.2.1 -- add check for posts to be blank
 	if (isset($_POST['posts']) && $_POST['posts'] != '') {
-	
+
 		// $_POST['posts']  = "mbds_post[]=2131&mbds_post[]=2135&mbds_post[]=2133&mbds_post[]=2243&mbds_post[]=2245&mbds_post[]=2247&mbds_post[]=2249&mbds_post[]=2251&mbds_post[]=2253&mbds_post[]=2255&mbds_post[]=2257&mbds_post[]=2259"
-		
+
 		// parse_str($_POST['posts']) creates variable $mbds_post which is an array of post ids
 		parse_str($_POST['posts']);
-	
+
 		update_post_meta($_POST['storyID'], '_mbds_posts', $mbds_post);
 	}
-	
+
 }
 
 
@@ -279,7 +279,7 @@ function mbds_render_story_columns($column_name, $id) {
 			break;
 		case 'mbds_length':
 			$posts = get_post_meta($id, '_mbds_posts', true);
-			if ($posts == '') {	
+			if ($posts == '') {
 				echo '0';
 			} else {
 				echo count($posts);
