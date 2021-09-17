@@ -105,6 +105,7 @@ function mbds_shortcode_summary( $attr, $content ) {
 	if ( isset( $mbds_story['_mbds_summary'] ) ) {
 		$html_output .= '<p>' . preg_replace( '/\\n/', '</p><p>', $mbds_story['_mbds_summary'] ) . '</p>';
 	}
+	$html_output .= get_post_field('post_content', $storyID );
 	$html_output .= '</div>';
 
 	return apply_filters( 'mbds_summary_shortcode', $html_output );
@@ -130,11 +131,11 @@ function mbds_shortcode_toc( $attr, $content ) {
 
 	$html_output = '<div class="mbs_meta">';
 	//$series = get_the_terms( $storyID, 'mbds_series');
-	if ( is_array( $mbds_story['series'] ) && count( $mbds_story['series'] ) > 0 ) {
+	if ( isset( $mbds_story['series'] ) && is_array( $mbds_story['series'] ) && count( $mbds_story['series'] ) > 0 ) {
 		$html_output .= '<div class="mbs_meta_series"><span class="mbs_meta_label mbs_meta_series_label">' . __( 'Series:', 'mooberry-story' ) . '</span> <span class="mbs_meta_value mbs_meta_series">' . get_the_term_list( $storyID, 'mbds_series', '', ', ' ) . '</span></div>';
 	}
 	//$genres = get_the_terms( $storyID, 'mbds_genre');
-	if ( is_array( $mbds_story['genres'] ) && count( $mbds_story['genres'] ) > 0 ) {
+	if ( isset( $mbds_story['genres'] ) &&  is_array( $mbds_story['genres'] ) && count( $mbds_story['genres'] ) > 0 ) {
 		$html_output .= '<div class="mbs_meta_genre"><span class="mbs_meta_label mbs_meta_genre_label">' . _n( 'Genre:', 'Genres:', count( $mbds_story['genres'] ), 'mooberry-story' ) . '</span> <span class="mbs_meta_value mbs_meta_genre">' . get_the_term_list( $storyID, 'mbds_genre', '', ', ' ) . '</div>';
 	}
 	$complete    = isset( $mbds_story['_mbds_complete'] ) ? __('Yes', 'mooberry-story') : __('No', 'mooberry-story');
