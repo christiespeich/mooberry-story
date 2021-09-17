@@ -3,7 +3,7 @@
 Plugin Name: Mooberry Story
 Plugin URI:  http://www.mooberrydreams.com/products/mooberry-story
 Description: Organizes multiple blog posts into a series. Make it easy for readers to find your stories, including older ones.
-Version:     1.6.2
+Version:     1.6.3
 Author:      Mooberry Dreams
 Author URI:  https://profiles.wordpress.org/mooberrydreams/
 License:     GPL2
@@ -29,20 +29,24 @@ along with Mooberry Story. If not, see https://www.gnu.org/licenses/gpl-2.0.html
 define( 'MBDS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 define( 'MBDS_PLUGIN_VERSION_KEY', 'mbds_version' );
-define( 'MBDS_PLUGIN_VERSION', '1.6.2' );
+define( 'MBDS_PLUGIN_VERSION', '1.6.3' );
 
 
 //update checker
 require 'includes/plugin-update-checker/plugin-update-checker.php';
-/*$myUpdateChecker = new PluginUpdateChecker_2_2(
-    'http://www.mooberrydreams.com/plugins/2c49afcc-e4a0-403b-a980-c755043a201e/updater.json',
-    __FILE__
-);*/
-$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+
+/*$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 	'http://www.mooberrydreams.com/plugins/2c49afcc-e4a0-403b-a980-c755043a201e/updater.json',
 	__FILE__ //Full path to the main plugin file or functions.php.
 
+);*/
+
+$mbds_update_checker = Puc_v4_Factory::buildUpdateChecker(
+	'https://github.com/christiespeich/mooberry-story',
+	__FILE__,
+	'mooberry-story'
 );
+
 
 // load in CMB2
 if ( file_exists( dirname( __FILE__ ) . '/includes/cmb2/init.php' ) ) {
@@ -125,7 +129,7 @@ function mbds_init() {
 			'labels'            => array(
 				'name'                  => __( 'Stories', 'mooberry-story' ),
 				'singular_name'         => __( 'Story', 'mooberry-story' ),
-				'menu_name'             => __( 'Stories', 'noun', 'mooberry-story' ),
+				'menu_name'             => __( 'Stories', 'mooberry-story' ),
 				'all_items'             => __( 'All Stories', 'mooberry-story' ),
 				'add_new'               => __( 'Add New', 'mooberry-story' ),
 				'add_new_item'          => __( 'Add New Story', 'mooberry-story' ),
