@@ -332,12 +332,17 @@ function mbds_get_story_post_name( $storyID, $single_plural ) {
 
 }
 
-function mbds_display_posts_name( $story, $postID ) {
-	$posts_name = mbds_get_story_post_name( $story['ID'], 'single' );
-	$count      = array_search( $postID, $story['_mbds_posts'] );
-	$count ++;
-
-	return apply_filters( 'mbds_display_posts_name', $posts_name . ' ' . $count );
+function mbds_display_posts_name( $story, $postID, $include_colon = false ) {
+	$posts_name = '';
+	$exclude = get_post_meta($postID, '_mbds_exclude_posts_name', true);
+	if ( $exclude != 'on' ) {
+		$posts_name = mbds_get_story_post_name( $story['ID'], 'single' );
+		$count      = array_search( $postID, $story['_mbds_posts'] );
+		$count ++;
+		$posts_name .= ' ' . $count;
+		$posts_name .= $include_colon ? ':' : '';
+	}
+	return apply_filters( 'mbds_display_posts_name', $posts_name );
 }
 
 function mbds_output_dropdown( $options, $selected ) {

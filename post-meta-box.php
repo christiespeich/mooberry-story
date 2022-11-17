@@ -15,8 +15,8 @@ function mbds_init_post_meta_box() {
 		 'context'    => 'normal',
 		 'priority'   => 'high',
 		 'show_names' => true, // Show field names on the left
-		
-		
+
+
 	) ) );
 
 	$post_meta_box->add_field( apply_filters('mbds_posts_story_field', array(
@@ -24,7 +24,7 @@ function mbds_init_post_meta_box() {
 		'id'         => $prefix . 'story',
 		'type'       => 'select',
 		'options'	=> mbds_get_story_list(),
-		
+
 	) ) );
 
 	$post_meta_box->add_field( apply_filters( 'mbds_posts_chapter_title_field', array(
@@ -33,6 +33,14 @@ function mbds_init_post_meta_box() {
 		'type'  =>  'text',
 		'desc'   =>  __('Use if you don\'t want the post title to be used as the title on the Table of Contents. Leave blank to use the post title above', 'mooberry-story'),
 	) ) );
+
+	$post_meta_box->add_field( apply_filters('mbds_posts_include_posts_name_field', array(
+		'name'		=> __('Don\'t Include Posts Name and Count in this post\'s title?', 'mooberry-story'),
+		'id'		=> $prefix . 'exclude_posts_name',
+		'type'		=> 'checkbox',
+		'desc'		=> __('Will NOT prepend, for example, Chapter X: to the title of the post. '),
+	)));
+
 
 	/*
 	$post_meta_box->add_field( apply_filters('mbds_posts_summary_field', array(
@@ -51,7 +59,7 @@ function mbds_init_post_meta_box() {
 	) ) );
 	*/
 }
-	
+
 
 /**********************************************************
 	METABOX SAVING
@@ -59,44 +67,44 @@ function mbds_init_post_meta_box() {
 add_action( 'cmb2_override__mbds_story_meta_save', 'mbds_story_save', 3, 4);
 function mbds_story_save($override, $a, $args, $field_obj ) {
 	global $post;
-	
+
 	// If this is just a revision, don't save the posts
 	if ( wp_is_post_revision( $post->ID ) )  {
 		return;
 	}
-	
+
 
 	$new_story = $a['value'];
 	$mbds_story = get_post_meta($new_story, '_mbds_posts', true);
 	if ($mbds_story == '') {
 		$mbds_story = array();
 	}
-	
-	// remove from any story already in 
+
+	// remove from any story already in
 	// get all stories
 	// if this post id is in the posts array of the story, remove it
 	// then renumber the array
 	$stories = mbds_get_stories('all', null, null, null);
 	foreach($stories as $each_story) {
 		$story = mbds_get_story($each_story->ID);
-		
+
 		if (array_key_exists('_mbds_posts', $story)) {
 			// if the ID is in the array, get the key
 			$keys = array_keys($story['_mbds_posts'], $post->ID);
-			
+
 			foreach ($keys as $key) {
 				// remove the post
 				unset($story['_mbds_posts'][$key]);
 			}
 			// renumber the indices
 			$story['_mbds_posts'] = array_values($story['_mbds_posts']);
-			
+
 			// update the story
 			update_post_meta($each_story->ID, '_mbds_posts', $story['_mbds_posts']);
 		}
 	}
-	
-	
+
+
 	// if assigned to a story, save the post at the end of the order
 	if ($new_story != '0') {
 		$mbds_story[] = $post->ID;
@@ -105,16 +113,16 @@ function mbds_story_save($override, $a, $args, $field_obj ) {
 		// don't override, still need to save story setting
 		return null;
 	}
-	
+
 	// if story = 0 then there should be no story data saved
 	if ($new_story == '0') {
 		delete_post_meta($post->ID, '_mbds_story');
 		// override. Don't save a 0 in the database
 		return true;
 	}
-	
 
-	
+
+
 }
 
 /*************************************************************************
@@ -127,7 +135,7 @@ function mbds_trash_post( $postID) {
 	$mbds_storyID = get_post_meta($postID, '_mbds_story', true);
 	if ($mbds_storyID != '') {
 		$mbds_posts = get_post_meta($mbds_storyID, '_mbds_posts', true);
-		if ($mbds_posts != '' ) { 
+		if ($mbds_posts != '' ) {
 			$key = array_search($postID, $mbds_posts);
 			if ($key !== null) {
 				update_post_meta($postID, '_mbds_posts_orderID', $key);
@@ -139,7 +147,7 @@ function mbds_trash_post( $postID) {
 			}
 		}
 	}
-}	
+}
 
 // restore from trash
 add_action('untrash_post', 'mbds_untrash_post');
@@ -150,7 +158,7 @@ function mbds_untrash_post( $postID ) {
 		$mbds_posts = get_post_meta($mbds_storyID, '_mbds_posts', true);
 		$mbds_orderID = get_post_meta($postID, '_mbds_posts_orderID', true);
 		// and the story has a posts array
-		if ($mbds_posts != '') { 			
+		if ($mbds_posts != '') {
 			// and the order ID is set
 			if ($mbds_orderID != '') {
 				// and the order ID isn't past the length of the array
@@ -174,7 +182,7 @@ function mbds_untrash_post( $postID ) {
 		// remove the OrderID, it's not needed any more
 		delete_post_meta($postID, '_mbds_posts_orderID');
 	}
-	
+
 }
 
 
@@ -226,8 +234,8 @@ function mbds_add_quick_edit($column_name, $post_type) {
 			foreach ($story_list as $storyID => $story) {
 				echo "<option class='widget-option' value='{$storyID}'>{$story}</option>\n";
 			}
-		
-            
+
+
         ?>
         </select>
     </div>

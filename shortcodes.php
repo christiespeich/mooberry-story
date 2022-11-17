@@ -65,7 +65,7 @@ function mbds_next_prev( $nextprev, $text, $story, $summary ) {
 		if ( $found !== null ) {
 			$html_output .= '<div class="mbs_' . $nextprev . '">' . $text . ': <a href="' . $posts[ $found ]['link'] . '">';
 			if ( isset( $mbds_story['_mbds_include_posts_name'] ) ) {
-				$html_output .= '<span class="mbs_' . $nextprev . '_posts_name">' . mbds_display_posts_name( $mbds_story, $posts[ $found ]['ID'] ) . ': </span>';
+				$html_output .= '<span class="mbs_' . $nextprev . '_posts_name">' . mbds_display_posts_name( $mbds_story, $posts[ $found ]['ID'], true ) . ' </span>';
 			}
 			$html_output .= $posts[ $found ]['title'] . '</a>';
 			$html_output .= mbds_output_summary( $summary, $posts[ $found ]['ID'] );
@@ -157,7 +157,7 @@ function mbds_shortcode_toc( $attr, $content ) {
 
 		$html_output .= '<li><a href="' . $each_post['link'] . '">';
 		if ( isset( $mbds_story['_mbds_include_posts_name'] ) ) {
-			$html_output .= '<span class="mbs_toc_item_posts_name">' . mbds_display_posts_name( $mbds_story, $each_post['ID'] ) . ': </span>';
+			$html_output .= '<span class="mbs_toc_item_posts_name">' . mbds_display_posts_name( $mbds_story, $each_post['ID'] , true ) . ' </span>';
 		}
 		$html_output .= '<span class="mbs_toc_item_title">' . $each_post['title'] . '</span></a>';
 		$html_output .= ' <span class="mbs_toc_item_word_count">(' . mbds_get_word_count( get_post_field( 'post_content', $each_post['ID'] ) ) . ' ' . __('words', 'mooberry-story') . ')</span></li>';
