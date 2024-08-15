@@ -3,7 +3,7 @@
 Plugin Name: Mooberry Story
 Plugin URI:  http://www.mooberrydreams.com/products/mooberry-story
 Description: Organizes multiple blog posts into a series. Make it easy for readers to find your stories, including older ones.
-Version:     1.8.1
+Version:     1.8.2
 Author:      Mooberry Dreams
 Author URI:  https://profiles.wordpress.org/mooberrydreams/
 License:     GPL2
@@ -29,7 +29,7 @@ along with Mooberry Story. If not, see https://www.gnu.org/licenses/gpl-2.0.html
 define( 'MBDS_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 define( 'MBDS_PLUGIN_VERSION_KEY', 'mbds_version' );
-define( 'MBDS_PLUGIN_VERSION', '1.8.1' );
+define( 'MBDS_PLUGIN_VERSION', '1.8.2' );
 
 
 //update checker
@@ -44,8 +44,10 @@ $mbds_update_checker = Puc_v4_Factory::buildUpdateChecker(
 
 // load in CMB2
 if ( file_exists( dirname( __FILE__ ) . '/includes/cmb2/init.php' ) ) {
+	define('MBDS_CMB2_FOLDER', 'cmb2');
 	require_once dirname( __FILE__ ) . '/includes/cmb2/init.php';
 } elseif ( file_exists( dirname( __FILE__ ) . '/includes/CMB2/init.php' ) ) {
+	define('MBDS_CMB2_FOLDER', 'CMB2');
 	require_once dirname( __FILE__ ) . '/includes/CMB2/init.php';
 }
 
