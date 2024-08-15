@@ -15,9 +15,6 @@ function mbds_update_versions() {
 		mbds_upgrade_to_1_3();
 	}
 
-	if (version_compare($current_version, '1.8.2', '<')) {
-		mbds_upgrade_to_1_8_2();
-	}
 
 		update_option(MBDS_PLUGIN_VERSION_KEY, MBDS_PLUGIN_VERSION);
 
@@ -31,12 +28,4 @@ function mbds_upgrade_to_1_3() {
 		}
 	}
 
-}
-
-function mbds_upgrade_to_1_8_2() {
-	if ( !file_exists( MBDS_PLUGIN_DIR . '/includes/' . MBDS_CMB2_FOLDER . '/includes/CMB2_Hookup.php')) {
-		if ( file_exists(MBDS_PLUGIN_DIR . '/includes/' . MBDS_CMB2_FOLDER . '/includes/CMB2_hookup.php')) {
-			copy( MBDS_PLUGIN_DIR . '/includes/' . MBDS_CMB2_FOLDER . '/includes/CMB2_hookup.php', MBDS_PLUGIN_DIR . '/includes/' . MBDS_CMB2_FOLDER . '/includes/CMB2_Hookup.php' );
-		}
-	}
 }
