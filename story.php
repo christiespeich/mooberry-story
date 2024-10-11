@@ -188,7 +188,7 @@ function mbds_posts_meta_box() {
 	echo '<p>' . __('Drag and drop the items to reorder them.', 'mooberry-story') . '</p>';
 	echo '	<ul id="mbds_post_grid">';
 
-	$posts = mbds_get_posts_list($post->ID);
+	$posts = mbds_get_posts_list($post->ID, array('post_status'=>array('publish','future')));
 	foreach ($posts as $one_post) {
 		echo '<li id="mbds_post_' . $one_post['ID'] . '" class="ui-state-default"><span class="ui-icon"></span>' . $one_post['title'] . '</li>';
 	}
