@@ -200,28 +200,31 @@ function mbds_get_stories( $filter, $complete, $series, $genre ) {
 
 }
 
-function mbds_get_posts_list( $storyID ) {
+function mbds_get_posts_list( $storyID, $args = array() ) {
 
 	//$mbdbps_series = get_option('mbdbps_series');
-	$posts_list = get_post_meta( $storyID, '_mbds_posts', true );
+	$posts_ids = get_post_meta( $storyID, '_mbds_posts', true );
 
-	if ( $posts_list == '' ) {
+	if ( $posts_ids == '' ) {
 		return apply_filters( 'mbds_posts_list', array() );
 	}
 
-	$args = array(
+	$default_args = array(
 		'posts_per_page' => - 1,
 		'post_status'    => 'publish',
-		'post__in'       => $posts_list,
+		'post__in'       => $posts_ids,
 	);
+
+	$args = wp_parse_args($args, $default_args);
 
 	$posts = get_posts( $args );
 
-
+	$posts_list = array();
 	foreach ( $posts as $post ) {
 
-		$key = array_search( $post->ID, $posts_list );
+		$key = array_search( $post->ID, $posts_ids );
 		if ( $key !== false ) {
+			$key = intval($key);
 			$alt_title = get_post_meta( $post->ID, '_mbds_alt_chapter_title', true );
 			if ( $alt_title != '' ) {
 				$title = $alt_title;
@@ -235,9 +238,8 @@ function mbds_get_posts_list( $storyID ) {
 				'order' => $key,
 			);
 		}
-
-
 	}
+	ksort($posts_list);
 
 	wp_reset_postdata();
 
