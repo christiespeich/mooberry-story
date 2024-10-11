@@ -152,7 +152,7 @@ function mbds_shortcode_toc( $attr, $content ) {
 	foreach ( $posts as $each_post ) {
 		$alt_title = get_post_meta( $each_post['ID'], '_mbds_alt_chapter_title', true );
 		if ( $alt_title != '' ) {
-			$post['title'] = $alt_title;
+			$each_post['title'] = $alt_title;
 		}
 
 		$html_output .= '<li><a href="' . $each_post['link'] . '">';
