@@ -40,6 +40,9 @@ If you have stories you've already posted on your blog, you can still use Moober
 6. Two widgets and multiple options allow you to highlight stories on your sidebar so readers can find them easily.
 
 == Changelog ==
+= 1.9 =
+* Added: Option to not show word count
+
 = 1.8.5 =
 * Fixed: Allow scheduled chapters
 

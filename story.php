@@ -91,6 +91,16 @@ function mbds_init_story_meta_box() {
 		'type'       => 'checkbox',
 	) ) );
 
+	$story_meta_box->add_field( apply_filters('mbds_show_word_count_field', array(
+		'name'  =>  __('Show Word Count on Table of Contents?', 'mooberry-story'),
+		'id'    =>  $prefix . 'show_word_count',
+		'type'  =>  'multicheck',
+		'options'   => [
+			'total'=> __('Whole Story','mooberry-story'),
+			'chapter'=> __('Individual Chapters', 'mooberry-story'),
+		]
+	)));
+
 	$story_meta_box->add_field( apply_filters('mbds_story_summary_field', array(
 		'name'       => __( 'Story Summary', 'mooberry-story' ),
 		'id'         => $prefix . 'summary',

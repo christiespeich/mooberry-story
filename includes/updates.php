@@ -11,10 +11,12 @@ function mbds_update_versions() {
 
 	if (version_compare($current_version, '1.3', '<')) {
 		// upgrade to 1.3 script
-		// add new retailers
 		mbds_upgrade_to_1_3();
 	}
 
+	if (version_compare($current_version, '1.9', '<')) {
+		mbds_upgrade_to_1_9();
+	}
 
 		update_option(MBDS_PLUGIN_VERSION_KEY, MBDS_PLUGIN_VERSION);
 
@@ -28,4 +30,13 @@ function mbds_upgrade_to_1_3() {
 		}
 	}
 
+}
+
+function mbds_upgrade_to_1_9() {
+	$stories = mbds_get_stories('', '', null, null);
+	foreach ($stories as $story) {
+		update_post_meta( $story->ID, '_mbds_show_word_count', array('total','chapter'));
+
+
+	}
 }

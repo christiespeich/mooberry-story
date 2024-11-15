@@ -141,8 +141,10 @@ function mbds_shortcode_toc( $attr, $content ) {
 	$complete    = isset( $mbds_story['_mbds_complete'] ) ? __('Yes', 'mooberry-story') : __('No', 'mooberry-story');
 	$html_output .= '<div class="mbs_meta_complete"><span class="mbs_meta_label mbs_meta_complete_label">' . __( 'Completed:', 'mooberry-story' ) . '</span> <span class="mbs_meta_value mbs_meta_complete">' . $complete;
 
-	$total_word_count = mbds_get_story_word_count( $storyID );
-	$html_output      .= '<div class="mbs_meta_word_count"><span class="mbs_meta_label mbs_meta_word_count_label">' . __( 'Word Count:', 'mooberry-story' ) . '</span> <span class="mbs_meta_value mbs_meta_word_count">' . $total_word_count;
+	if ( isset($mbds_story['_mbds_show_word_count']) && in_array('total', $mbds_story['_mbds_show_word_count'] ) ) {
+		$total_word_count = mbds_get_story_word_count( $storyID );
+		$html_output      .= '<div class="mbs_meta_word_count"><span class="mbs_meta_label mbs_meta_word_count_label">' . __( 'Word Count:', 'mooberry-story' ) . '</span> <span class="mbs_meta_value mbs_meta_word_count">' . $total_word_count . '</span>';
+	}
 
 	$html_output .= '<div class="mbs_toc"><h2 class="mbs_toc_title">' . __( 'Table of Contents', 'mooberry-story' ) . '</h2>';
 
@@ -160,7 +162,10 @@ function mbds_shortcode_toc( $attr, $content ) {
 			$html_output .= '<span class="mbs_toc_item_posts_name">' . mbds_display_posts_name( $mbds_story, $each_post['ID'] , true ) . ' </span>';
 		}
 		$html_output .= '<span class="mbs_toc_item_title">' . $each_post['title'] . '</span></a>';
-		$html_output .= ' <span class="mbs_toc_item_word_count">(' . mbds_get_word_count( get_post_field( 'post_content', $each_post['ID'] ) ) . ' ' . __('words', 'mooberry-story') . ')</span></li>';
+		if ( isset($mbds_story['_mbds_show_word_count']) && in_array('chapter', $mbds_story['_mbds_show_word_count'] ) ) {
+			$html_output .= ' <span class="mbs_toc_item_word_count">(' . mbds_get_word_count( get_post_field( 'post_content', $each_post['ID'] ) ) . ' ' . __( 'words', 'mooberry-story' ) . ')</span>';
+		}
+		$html_output .= '</li>';
 	}
 	$html_output .= '</ul>';
 	$html_output .= '</div>';

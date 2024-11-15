@@ -83,6 +83,9 @@ function mbds_get_story( $storyID ) {
 		if ( isset( $story['_mbds_posts'] ) ) {
 			$story['_mbds_posts'] = unserialize( $story['_mbds_posts'] );
 		}
+		if ( isset( $story['_mbds_show_word_count'] ) ) {
+			$story['_mbds_show_word_count'] = unserialize( $story['_mbds_show_word_count'] );
+		}
 		// v1.2.1 make sure _mbds_posts is an array
 		if ( ! array_key_exists( '_mbds_posts', $story ) || ! is_array( $story['_mbds_posts'] ) ) {
 			$story['_mbds_posts'] = array();
